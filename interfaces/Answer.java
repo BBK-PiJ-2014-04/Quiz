@@ -10,9 +10,22 @@ package interfaces;
  *
  */
 public interface Answer {
-	public int AnswerID = -1;
-	public int RelatedQuestionID = -1;
-	public String AnswerTest = "";
-	public boolean IsRight = false;
-	
+	/**
+	 * Gets the id of the Answer
+	 * 
+	 * @return ID
+	 */
+	public int getID();
+	/**
+	 * Get the text of the Answer
+	 * 
+	 * @return
+	 */
+	public String getText();
+	/**
+	 * Gets if this is the correct answer
+	 * 
+	 * @return
+	 */
+	public boolean isRight();
 }
