@@ -20,6 +20,13 @@ public interface Quiz {
 	 */
 	public void getQuestionList();
 	/**
+	 * Gets the question of the given id.
+	 * 
+	 * @param id
+	 * @return The question whose id has been passed
+	 */
+	public Question getQuestion(int id);
+	/**
 	 * Gets the name of the Quiz
 	 */
 	public void getQuizName();
@@ -35,6 +42,8 @@ public interface Quiz {
 	public void setInitialMessage(String Text);
 	/**
 	 * Gets the initial message that has been set up
+	 * 
+	 * @return The initial message
 	 */
-	public void getInitialMessage();
+	public String getInitialMessage();
 }
