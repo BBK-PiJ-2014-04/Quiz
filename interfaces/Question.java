@@ -1,5 +1,5 @@
 /**
- * 
+ * A Question which can have multiple answer related. Every question has a text and an ID. 
  */
 package interfaces;
 
