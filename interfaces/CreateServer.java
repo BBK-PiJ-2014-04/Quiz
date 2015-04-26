@@ -13,5 +13,5 @@ public interface CreateServer extends Remote {
 	public List<User> getListOfUsers();
 	public User setUser(int id);
 	public Quiz createQuiz();
-	public HashMap<Player,Integer> closeQuiz();
+	public HashMap<Player,Integer> closeQuiz(int id);
 }
