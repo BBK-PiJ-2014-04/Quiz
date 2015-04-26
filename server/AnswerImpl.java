@@ -21,6 +21,11 @@ public class AnswerImpl implements Answer {
 	}
 	
 	@Override
+	public int getQuestionID() {
+		return relatedQuestionID;
+	}
+	
+	@Override
 	public int getID() {
 		return answerID;
 	}

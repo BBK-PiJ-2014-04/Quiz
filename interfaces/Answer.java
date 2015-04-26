@@ -17,6 +17,12 @@ public interface Answer {
 	 */
 	public int getID();
 	/**
+	 * Gets the id of the Question which the answer is related to
+	 * 
+	 * @return ID
+	 */
+	public int getQuestionID();
+	/**
 	 * Get the text of the Answer
 	 * 
 	 * @return
