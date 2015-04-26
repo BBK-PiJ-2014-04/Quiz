@@ -1,19 +1,19 @@
 package interfaces;
 /**
  * 
- * @author Salvatore Cardali
+ * @author SalvatoreCardali
  *
  */
-public interface Player {
+public interface User {
 	
 	/**
-	 * Gets the name of the Player
+	 * Gets the name of the User
 	 * 
 	 * @return
 	 */
 	public String getName();
 	/**
-	 * Gets the Id of the player
+	 * Gets the Id of the User
 	 * 
 	 * @return
 	 */
