@@ -12,21 +12,39 @@ public class AnswerImpl implements Answer {
 		this.answerID = answerID;
 		this.relatedQuestionID = questionID;
 		this.isRight = isRight;
+		if(text != null && text != "") {
+			this.answerText = text;
+		}
+		else {
+			throw new IllegalArgumentException("The text of an answer can't be null or empty");
+		}
 	}
 	
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return answerID;
 	}
 	@Override
 	public String getText() {
-		// TODO Auto-generated method stub
-		return null;
+		return answerText;
 	}
 	@Override
 	public boolean isRight() {
-		// TODO Auto-generated method stub
-		return false;
+		return isRight;
+	}
+
+	@Override
+	public void changeText(String text) {
+		if(text != null && text != "") {
+			this.answerText = text;
+		}
+		else {
+			throw new IllegalArgumentException("The text of an answer can't be null or empty");
+		}
+	}
+
+	@Override
+	public void changeTrueValue(boolean trueValue) {
+		this.isRight = trueValue;
 	}
 }
