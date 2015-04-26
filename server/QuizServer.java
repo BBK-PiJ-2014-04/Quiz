@@ -10,11 +10,13 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class QuizServer extends UnicastRemoteObject implements CreateServer {
 
 	private List<User> usersList;
 	private List<Quiz> quizList;
+	HashMap<Player, Integer> usersScore
 	
 	
 	protected QuizServer() throws RemoteException {
@@ -46,15 +48,14 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer {
 	}
 
 	@Override
-	public HashMap<Player, Integer> closeQuiz(int id) throws RemoteException {
+	public List<Results> closeQuiz(int id) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<Quiz> getListOfQuiz(int userID) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		return quizList;
 	}
 
 }

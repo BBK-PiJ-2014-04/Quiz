@@ -1,5 +1,7 @@
 package interfaces;
 
+import java.util.Dictionary;
+
 public interface Quiz {
 
 	/**
@@ -17,8 +19,9 @@ public interface Quiz {
 	public boolean removeQuestion(int id);
 	/**
 	 * Gets all the questions that have been previously added to the Quiz List
+	 * @return 
 	 */
-	public void getQuestionList();
+	public Dictionary<?, ?> getQuestionList();
 	/**
 	 * Gets the question of the given id.
 	 * 
@@ -28,22 +31,31 @@ public interface Quiz {
 	public Question getQuestion(int id);
 	/**
 	 * Gets the name of the Quiz
+	 * 
+	 * @return String
 	 */
-	public void getQuizName();
+	public String getQuizName();
 	/**
 	 * Sets the name of the Quiz
+	 * @param name
 	 */
-	public void setQuizName();
+	public void setQuizName(String name);
 	/**
 	 * Sets an initial message to show when a player starts to play
 	 * 
 	 * @param Text
 	 */
-	public void setInitialMessage(String Text);
+	public void setInitialMessage(String text);
 	/**
 	 * Gets the initial message that has been set up
 	 * 
 	 * @return The initial message
 	 */
 	public String getInitialMessage();
+	/**
+	 * Gets the id of the User who created the Quiz
+	 * 
+	 * @return
+	 */
+	public int getCreatorID();
 }

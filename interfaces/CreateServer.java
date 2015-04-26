@@ -4,6 +4,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
+
+import server.Results;
 /**
  * This interface will define the method that can be used by the Client who can create the quiz and set up the game.
  * 
@@ -49,7 +51,7 @@ public interface CreateServer extends Remote {
 	 * @return A Map with the Players and the scores
 	 * @throws RemoteException 
 	 */
-	public HashMap<Player,Integer> closeQuiz(int id) throws RemoteException;
+	public List<Results> closeQuiz(int id) throws RemoteException;
 	
 	
 }
