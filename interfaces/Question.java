@@ -14,6 +14,12 @@ import java.util.Map;
 public interface Question {
 	
 	/**
+	 * Getting the id of the question
+	 * 
+	 * @return id
+	 */
+	public int getQuestionId();
+	/**
 	 * Setting the text of the question,  what the user is going to see
 	 * 
 	 * @param text

@@ -13,6 +13,11 @@ public class QuestionImpl implements Question {
 	private List<Answer> answersList;
 	
 	@Override
+	public int getQuestionId() {
+		return questionID;
+	}
+	
+	@Override
 	public void setQuestionText(String text) {
 		this.text = text;
 	}
@@ -83,4 +88,5 @@ public class QuestionImpl implements Question {
 		}
 		throw new IllegalArgumentException("Invalid ID passed");
 	}
+
 }
