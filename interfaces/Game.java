@@ -1,6 +1,6 @@
 package interfaces;
 
-import game.CustomTypes.Status;
+import server.CustomTypes.Status;
 
 public interface Game {
 	

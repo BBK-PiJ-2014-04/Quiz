@@ -1,4 +1,4 @@
-package game;
+package server;
 
 public class CustomTypes {
 	/**
@@ -9,6 +9,6 @@ public class CustomTypes {
 	 */
 	
 	public enum Status {
-		Idle, Started, Running, Completed
+		Opened, Completed
 	}
 }
