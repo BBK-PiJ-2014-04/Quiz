@@ -27,9 +27,13 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer {
 	}
 
 	@Override
-	public boolean createUser(String name) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+	public void createUser(String name) throws RemoteException {
+		for(int i=0; i < usersList.size(); i++) {
+		   User current = usersList.get(i);
+		   if(current.getName().equals(name)) {
+			   throw new IllegalArgumentException("There's already a user with that name");
+		   }
+		}
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public interface CreateServer extends Remote {
 	 * @return a boolean to define if the operation was successful
 	 * @throws RemoteException 
 	 */
-	public boolean createUser(String name) throws RemoteException;
+	public void createUser(String name) throws RemoteException;
 	/**
 	 * Creation of a new Quiz
 	 * 
