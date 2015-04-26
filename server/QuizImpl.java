@@ -4,13 +4,18 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 
-import interfaces.Answer;
 import interfaces.Question;
 import interfaces.Quiz;
 
 public class QuizImpl implements Quiz {
 	private List<Question> questionsList;
 	private String quizName;
+	private String initialMessage;
+	private int quizCreatorID;
+	
+	public QuizImpl(int quizCreatorID) {
+		this.quizCreatorID = quizCreatorID;
+	}
 
 	@Override
 	public void addQuestion(Question newQuestion) {
@@ -51,27 +56,39 @@ public class QuizImpl implements Quiz {
 	}
 
 	@Override
-	public void getQuizName() {
-		// TODO Auto-generated method stub
-
+	public String getQuizName() {
+		return quizName;
+	}
+	
+	@Override
+	public int getCreatorID() {
+		return quizCreatorID;
 	}
 
 	@Override
-	public void setQuizName() {
-		// TODO Auto-generated method stub
-
+	public void setQuizName(String name) {
+		if(name != null && name != "") {
+			this.quizName = name;
+		}
+		else {
+			throw new IllegalArgumentException("Invalid name passed");
+		}
 	}
 
 	@Override
-	public void setInitialMessage(String Text) {
-		// TODO Auto-generated method stub
+	public void setInitialMessage(String text) {
+		if(text != null && text != "") {
+			this.initialMessage = text;
+		}
+		else {
+			throw new IllegalArgumentException("Invalid message passed");
+		}
 
 	}
 
 	@Override
 	public String getInitialMessage() {
-		// TODO Auto-generated method stub
-		return null;
+		return initialMessage;
 	}
 
 }
