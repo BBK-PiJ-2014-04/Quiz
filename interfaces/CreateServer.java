@@ -1,6 +1,7 @@
 package interfaces;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
 /**
@@ -14,41 +15,41 @@ public interface CreateServer extends Remote {
 	 * Get the list of users (simulation of a login system, without the password..trustful login :))
 	 * 
 	 * @return a List of all the registered user
+	 * @throws RemoteException 
 	 */
-	public List<User> getListOfUsers();
+	public List<User> getListOfUsers() throws RemoteException;
 	/**
 	 * Create a new user
 	 * 
 	 * @param name
 	 * @return a boolean to define if the operation was successful
+	 * @throws RemoteException 
 	 */
-	public boolean createUser(String name);
-	/**
-	 * Select the active user
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public User setUser(int id);
+	public boolean createUser(String name) throws RemoteException;
 	/**
 	 * Creation of a new Quiz
 	 * 
-	 * @return the Quiz object created
+	 * @param userID
+	 * @return Created Quiz
+	 * @throws RemoteException
 	 */
-	public Quiz createQuiz();
+	public Quiz createQuiz(int userID) throws RemoteException;
 	/**
 	 * Gets the list of Quiz created
 	 * 
+	 * @param userID
 	 * @return List Of Quiz
+	 * @throws RemoteException 
 	 */
-	public List<Quiz> getListOfQuiz();
+	public List<Quiz> getListOfQuiz(int userID) throws RemoteException;
 	/**
 	 * Changes the status of the quiz to Completed and gives back a Grid with the players that attempted it and their respective results
 	 * 
 	 * @param id
 	 * @return A Map with the Players and the scores
+	 * @throws RemoteException 
 	 */
-	public HashMap<Player,Integer> closeQuiz(int id);
+	public HashMap<Player,Integer> closeQuiz(int id) throws RemoteException;
 	
 	
 }
