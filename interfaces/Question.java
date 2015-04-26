@@ -4,8 +4,6 @@
 package interfaces;
 
 import java.util.Dictionary;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author SalvatoreCardali
@@ -67,6 +65,6 @@ public interface Question {
 	 * 
 	 * @return List of Answers
 	 */
-	public Dictionary getAnswers();
+	public Dictionary<?, ?> getAnswers();
 	
 }
