@@ -28,7 +28,7 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer {
 
 	@Override
 	public int createUser(String name) throws RemoteException {
-		int id = usersList.size()-1;
+		int id = usersList.size();
 		for(int i=0; i < usersList.size(); i++) {
 		   User current = usersList.get(i);
 		   if(current.getName().equals(name)) {

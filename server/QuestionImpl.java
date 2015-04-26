@@ -22,7 +22,7 @@ public class QuestionImpl implements Question {
 
 	@Override
 	public void addAnswer(String text, boolean correct) {
-		answersList.add(new AnswerImpl(text,this.questionID,correct));
+		answersList.add(new AnswerImpl(answersList.size(),text,this.questionID,correct));
 	}
 
 	@Override
