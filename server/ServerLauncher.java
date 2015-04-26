@@ -8,6 +8,7 @@ import java.rmi.registry.LocateRegistry;
 public class ServerLauncher {
 
 	public static void main(String[] args) {
+		System.setProperty("java.security.policy","file:./server.policy");
 		ServerLauncher server = new ServerLauncher();
 		server.launch();
 	}
@@ -19,7 +20,7 @@ public class ServerLauncher {
 		}
 		try {
 			// 2. Create the registry if there is not one
-			LocateRegistry.createRegistry(1099);
+			LocateRegistry.createRegistry(64900);
 			// 3. Create the server object
 			QuizServer server = new QuizServer();
 			// 4. Register (bind) the server object on the registry.
