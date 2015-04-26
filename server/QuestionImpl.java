@@ -30,18 +30,37 @@ public class QuestionImpl implements Question {
 	@Override
 	public void modAnswer(int answerID, String text, boolean correct) {
 		Answer answerToModify = this.getAnswerFromList(answerID);
+		answerToModify.changeText(text);
+		answerToModify.changeTrueValue(correct);
 	}
 	
 	@Override
 	public boolean checkAnswerFormat() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean hasOnlyOneTrue = false;
+		if(answersList.size() < 2) {
+			return false;
+		}
+		else {
+			for(int i=0; i < answersList.size(); i++) {
+				Answer current = answersList.get(i);
+				if(current.isRight()) {
+					if(!hasOnlyOneTrue) {
+						hasOnlyOneTrue = true;
+					}
+					else {
+						return false;
+					}
+				}
+			}
+		}
+		return hasOnlyOneTrue;
 	}
 
 
 	@Override
 	public void delAnswer(int answerID) {
-		// TODO Auto-generated method stub
+		Answer answerToRemove = this.getAnswerFromList(answerID);
+		answersList.remove(answerToRemove);
 		
 	}
 
