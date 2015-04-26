@@ -22,10 +22,10 @@ public interface CreateServer extends Remote {
 	 * Create a new user
 	 * 
 	 * @param name
-	 * @return a boolean to define if the operation was successful
+	 * @return the id of the User created
 	 * @throws RemoteException 
 	 */
-	public void createUser(String name) throws RemoteException;
+	public int createUser(String name) throws RemoteException;
 	/**
 	 * Creation of a new Quiz
 	 * 
