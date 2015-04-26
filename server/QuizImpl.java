@@ -4,17 +4,26 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 
+import server.CustomTypes.Status;
 import interfaces.Question;
 import interfaces.Quiz;
 
 public class QuizImpl implements Quiz {
+	private int QuizID;
 	private List<Question> questionsList;
 	private String quizName;
 	private String initialMessage;
 	private int quizCreatorID;
+	private Status quizStatus;
 	
 	public QuizImpl(int quizCreatorID) {
 		this.quizCreatorID = quizCreatorID;
+		this.quizStatus = Status.Opened;
+	}
+	
+	@Override
+	public int getQuizID() {
+		return QuizID;
 	}
 
 	@Override
@@ -91,4 +100,8 @@ public class QuizImpl implements Quiz {
 		return initialMessage;
 	}
 
+	@Override
+	public void setQuizStatus(Status status) {
+		this.quizStatus = status;
+	}
 }

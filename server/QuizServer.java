@@ -8,15 +8,16 @@ import interfaces.User;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class QuizServer extends UnicastRemoteObject implements CreateServer {
 
+
+	private static final long serialVersionUID = -6897311723118574615L;
+	
 	private List<User> usersList;
 	private List<Quiz> quizList;
-	HashMap<Player, Integer> usersScore
+	private List<Results> resultsSheet;
 	
 	
 	protected QuizServer() throws RemoteException {
@@ -43,8 +44,8 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer {
 
 	@Override
 	public Quiz createQuiz(int userID) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		Quiz newQuiz = new QuizImpl(userID);
+		return newQuiz;
 	}
 
 	@Override

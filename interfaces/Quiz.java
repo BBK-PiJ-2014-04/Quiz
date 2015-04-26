@@ -2,8 +2,15 @@ package interfaces;
 
 import java.util.Dictionary;
 
-public interface Quiz {
+import server.CustomTypes.Status;
 
+public interface Quiz {
+	/**
+	 * Gets the id of the Quiz
+	 * 
+	 * @return ID
+	 */
+	public int getQuizID();
 	/**
 	 * Add a question to the list
 	 * 
@@ -58,4 +65,11 @@ public interface Quiz {
 	 * @return
 	 */
 	public int getCreatorID();
+	/**
+	 * Sets the Quiz Status
+	 * 
+	 * @param status 
+	 */
+	public void setQuizStatus(Status status);
+	
 }
