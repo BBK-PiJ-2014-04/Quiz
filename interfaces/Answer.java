@@ -23,6 +23,14 @@ public interface Answer {
 	 */
 	public String getText();
 	/**
+	 * Change the text of the Answer
+	 */
+	public void changeText(String text);
+	/**
+	 * Change the true value of the answer(whether is the right or wrong answer)
+	 */
+	public void changeTrueValue(boolean trueValue);
+	/**
 	 * Gets if this is the correct answer
 	 * 
 	 * @return
