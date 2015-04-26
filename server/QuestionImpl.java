@@ -29,8 +29,7 @@ public class QuestionImpl implements Question {
 
 	@Override
 	public void modAnswer(int answerID, String text, boolean correct) {
-		// TODO Auto-generated method stub
-		
+		Answer answerToModify = this.getAnswerFromList(answerID);
 	}
 	
 	@Override
@@ -54,5 +53,15 @@ public class QuestionImpl implements Question {
 			answersDictionary.put(current.getID(), current.getText());
 		}
 		return answersDictionary;
+	}
+	
+	public Answer getAnswerFromList(int id) {
+		for(int i=0; i < answersList.size(); i++) {
+			Answer current = answersList.get(i);
+			if(current.getID() == id) {
+				return current;
+			}
+		}
+		throw new IllegalArgumentException("Invalid ID passed");
 	}
 }
