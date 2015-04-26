@@ -3,7 +3,9 @@
  */
 package interfaces;
 
+import java.util.Dictionary;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author SalvatoreCardali
@@ -53,12 +55,12 @@ public interface Question {
 	 * 
 	 * @return Whether or not the Question has an acceptable format
 	 */
-	public boolean answersFormat();
+	public boolean checkAnswerFormat();
 	/**
 	 * Getting a list of all the Answers previously inserted
 	 * 
 	 * @return List of Answers
 	 */
-	public List<String> getAnswers();
+	public Dictionary getAnswers();
 	
 }

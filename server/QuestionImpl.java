@@ -1,5 +1,7 @@
 package server;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.List;
 
 import interfaces.Answer;
@@ -30,6 +32,13 @@ public class QuestionImpl implements Question {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public boolean checkAnswerFormat() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 	@Override
 	public void delAnswer(int answerID) {
@@ -38,15 +47,12 @@ public class QuestionImpl implements Question {
 	}
 
 	@Override
-	public boolean answersFormat() {
-		// TODO Auto-generated method stub
-		return false;
+	public Dictionary<Integer, String> getAnswers() {
+		Dictionary<Integer,String> answersDictionary = new Hashtable<Integer, String>();
+		for(int i=0; i < answersList.size(); i++) {
+			Answer current = answersList.get(i);
+			answersDictionary.put(current.getID(), current.getText());
+		}
+		return answersDictionary;
 	}
-
-	@Override
-	public List<String> getAnswers() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
