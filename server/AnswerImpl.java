@@ -3,10 +3,16 @@ package server;
 import interfaces.Answer;
 
 public class AnswerImpl implements Answer {
-	public int AnswerID;
-	public int RelatedQuestionID;
-	public String AnswerTest;
-	public boolean IsRight;
+	private int answerID;
+	private int relatedQuestionID;
+	private String answerText;
+	private boolean isRight;
+	
+	public AnswerImpl(int answerID,String text, int questionID, boolean isRight) {
+		this.answerID = answerID;
+		this.relatedQuestionID = questionID;
+		this.isRight = isRight;
+	}
 	
 	@Override
 	public int getID() {

@@ -10,9 +10,6 @@ import java.util.List;
  *
  */
 public interface Question {
-	public int QuestionID = -1;
-	public String Text = "";
-	public List<String> answers = null;
 	
 	/**
 	 * Setting the text of the question,  what the user is going to see
@@ -35,7 +32,7 @@ public interface Question {
 	 * @param correct
 	 * @return the AnswerID
 	 */
-	public int addAnswer(String text, boolean correct);
+	public void addAnswer(String text, boolean correct);
 	/**
 	 * Editing an answer with its text and whether is the correct answer or not
 	 * 
