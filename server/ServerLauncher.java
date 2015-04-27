@@ -20,7 +20,7 @@ public class ServerLauncher {
 		}
 		try {
 			// 2. Create the registry if there is not one
-			LocateRegistry.createRegistry(64900);
+			LocateRegistry.createRegistry(0);
 			// 3. Create the server object
 			QuizServer server = new QuizServer();
 			// 4. Register (bind) the server object on the registry.
