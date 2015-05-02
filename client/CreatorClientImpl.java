@@ -1,6 +1,7 @@
 package client;
 
 import interfaces.Answer;
+import interfaces.Question;
 import interfaces.Quiz;
 import interfaces.User;
 
@@ -12,6 +13,8 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Scanner;
 
+import server.AnswerImpl;
+import server.QuestionImpl;
 import server.QuizImpl;
 import server.QuizServer;
 
@@ -26,6 +29,7 @@ public class CreatorClientImpl implements CreatorClient {
 			//System.out.println("tests");
 			Remote service = Naming.lookup("//127.0.0.1:1099/QuizServer");
 			myQuizServer = (QuizServer) service;
+			actualUser = getCreator();
 		} catch (MalformedURLException | RemoteException | NotBoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -33,6 +37,13 @@ public class CreatorClientImpl implements CreatorClient {
 	}
 	
 	public static void main(String[] args) {
+		CreatorClientImpl clientUser = new CreatorClientImpl();
+		try {
+			Quiz myQuiz = clientUser.getQuiz();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -78,7 +89,7 @@ public class CreatorClientImpl implements CreatorClient {
 			return createNewQuiz();
 		}
 		else {
-			System.out.println("Here's the List of Registered Users:");
+			System.out.println("Here's the List of the Quiz you have previously created:");
 			for(Quiz current : quizList) {
 				System.out.printf("%d ) %s", current.getQuizID(),current.getQuizName());
 			}
@@ -104,14 +115,45 @@ public class CreatorClientImpl implements CreatorClient {
 	}
 
 	@Override
-	public void insertNewAnswer(int quizID) {
-		// TODO Auto-generated method stub
-		
+	public void insertNewAnswer(Question question) {
+		System.out.printf("Insert the Answer text for the Question '%s':", question.getQuestionText());
+		String answerText = scanner.nextLine();
+		System.out.printf("Is it the correct answer for the Question '%s' (Y/N):", question.getQuestionText());
+		while(true) {
+			if(scanner.nextLine().equals("Y")) {
+				question.addAnswer(answerText, true);
+				break;
+			}
+			else if(scanner.nextLine().equals("N")) {
+				question.addAnswer(answerText, false);
+				break;
+			}
+			else {
+				System.out.println("Please insert either 'Y' or 'N'");
+			}
+		}
+		System.out.println("Answer successfully inserted");
 	}
 
 	@Override
 	public void insertNewQuestion(int quizID) throws RemoteException {
-		// TODO Auto-generated method stub
+		Question nextQuestion = new QuestionImpl();
+		System.out.println("Insert the Question text:");
+		String questionText = scanner.nextLine();
+		nextQuestion.setQuestionText(questionText);
+		while(true) {
+			insertNewAnswer(nextQuestion);
+			System.out.print("Is the Answer inserting done? (Y/N)");
+			while(true) {
+				if(scanner.nextLine().equals("Y")) {
+					System.out.println("The Quiz has been successfully created");
+					break;
+				}
+				else if(!scanner.nextLine().equals("N")) {
+					System.out.println("Please insert either 'Y' or 'N'");
+				}
+			}
+		}
 		
 	}
 	
@@ -135,6 +177,12 @@ public class CreatorClientImpl implements CreatorClient {
 		return myQuizServer.createUser(input);
 	}
 	
+	/**
+	 * Creates a new Quiz
+	 * 
+	 * @return the new Quiz
+	 * @throws RemoteException
+	 */
 	private Quiz createNewQuiz() throws RemoteException {
 		String quizName, quizInitialMessage;
 		Quiz newQuiz = myQuizServer.createQuiz(actualUser.getId());

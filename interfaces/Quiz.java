@@ -71,5 +71,11 @@ public interface Quiz {
 	 * @param status 
 	 */
 	public void setQuizStatus(Status status);
+	/**
+	 * Gets the Quiz Status
+	 * 
+	 * @return
+	 */
+	public Status getQuizStatus();
 	
 }

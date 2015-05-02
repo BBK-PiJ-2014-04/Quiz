@@ -99,6 +99,11 @@ public class QuizImpl implements Quiz {
 	public String getInitialMessage() {
 		return initialMessage;
 	}
+	
+	@Override
+	public Status getQuizStatus() {
+		return this.quizStatus;
+	}
 
 	@Override
 	public void setQuizStatus(Status status) {

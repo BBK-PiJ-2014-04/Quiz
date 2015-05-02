@@ -3,6 +3,7 @@ package client;
 import java.rmi.RemoteException;
 
 import interfaces.Answer;
+import interfaces.Question;
 import interfaces.Quiz;
 import interfaces.User;
 /**
@@ -30,10 +31,11 @@ public interface CreatorClient {
 	/**
 	 * Process to insert a new answer
 	 * 
-	 * @param quizId
+	 * @param questionID
+	 * @param quizID
 	 * @throws RemoteException
 	 */
-	public void insertNewAnswer(int quizID) throws RemoteException;
+	public void insertNewAnswer(Question question) throws RemoteException;
 	/**
 	 * Process to insert a new Question
 	 * 

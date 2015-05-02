@@ -75,6 +75,12 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer {
 
 	@Override
 	public List<Quiz> getListOfQuiz(int userID) throws RemoteException {
+		List<Quiz> quizList = new ArrayList<Quiz>();
+		for(Quiz current : this.quizList) {
+			if(current.getQuizStatus().equals(Status.Opened)) {
+				quizList.add(current);
+			}
+		}
 		return quizList;
 	}
 
