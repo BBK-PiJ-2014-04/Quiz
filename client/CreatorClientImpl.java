@@ -1,6 +1,7 @@
 package client;
 
 import interfaces.Answer;
+import interfaces.Quiz;
 import interfaces.User;
 
 import java.net.MalformedURLException;
@@ -11,12 +12,14 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Scanner;
 
+import server.QuizImpl;
 import server.QuizServer;
 
 public class CreatorClientImpl implements CreatorClient {
 	private QuizServer myQuizServer;
 	private static Scanner scanner = new Scanner( System.in );
 	private String input = "";
+	private User actualUser;
 	
 	public CreatorClientImpl() {
 		try {
@@ -38,7 +41,7 @@ public class CreatorClientImpl implements CreatorClient {
 		List<User> userList = myQuizServer.getListOfUsers();
 		if(userList.size() == 0) {
 			System.out.println("There are no users registered. Please create your user.");
-			return null;
+			return createNewUser();
 		}
 		else {
 			System.out.println("Here's the List of Registered Users:");
@@ -48,9 +51,7 @@ public class CreatorClientImpl implements CreatorClient {
 			System.out.print("Please select your user (Write 'new' to create a new one): ");
 			input = scanner.nextLine();
 			if(input.equals("new")) {
-				System.out.print("Please insert your username: ");
-				input = scanner.nextLine();
-				return myQuizServer.createUser(input);
+				return createNewUser();
 			}
 			else if(input.equals("exit")) {
 				exitSystem();
@@ -68,9 +69,17 @@ public class CreatorClientImpl implements CreatorClient {
 		}
 	}
 
+
 	@Override
-	public int getQuiz() {
-		System.out.println("")
+	public Quiz getQuiz() {
+		List<Quiz> quizList = myQuizServer.getListOfQuiz(actualUser.getId());
+		if(quizList.size() == 0) {
+			System.out.println("There are no quiz for this user. Please create a new quiz.");
+			
+		}
+		else {
+			
+		}
 	}
 
 	@Override
@@ -88,9 +97,37 @@ public class CreatorClientImpl implements CreatorClient {
 	/**
 	 * Quits the execution of the program
 	 */
-	public void exitSystem() {
+	private void exitSystem() {
 		System.out.print("Thank you for using our system, farewell!");
 		System.exit(0);
+	}
+	
+	/**
+	 * Creates a new user
+	 * 
+	 * @return the created User
+	 * @throws RemoteException
+	 */
+	private User createNewUser() throws RemoteException {
+		System.out.print("Please insert your username: ");
+		input = scanner.nextLine();
+		return myQuizServer.createUser(input);
+	}
+	
+	private Quiz createNewQuiz() throws RemoteException {
+		String quizName, quizInitialMessage;
+		Quiz newQuiz = myQuizServer.createQuiz(actualUser.getId());
+		System.out.print("Please insert a new Name for the Quiz:");
+		quizName = scanner.nextLine();
+		System.out.println("Thanks! Please insert now the message that will be displayed at the beginning of the Quiz for the players");
+		quizInitialMessage = scanner.nextLine();
+		newQuiz.setQuizName(quizName);
+		newQuiz.setInitialMessage(quizInitialMessage);
+		int QuizID = newQuiz.getQuizID();
+		while(true) {
+			insertNewQuestion(QuizID);
+			
+		}
 	}
 
 }
