@@ -20,12 +20,12 @@ public interface CreatorClient {
 	 */
 	public User getCreator() throws RemoteException;
 	/**
-	 * Process to create a new Quiz
+	 * Process to retrieve the quiz or to create a new one
 	 * 
 	 * @return the Quiz ID
 	 * @throws RemoteException
 	 */
-	public int createNewQuiz() throws RemoteException;
+	public int getQuiz() throws RemoteException;
 	/**
 	 * Process to insert a new answer
 	 * 

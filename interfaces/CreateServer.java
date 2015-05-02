@@ -60,6 +60,14 @@ public interface CreateServer extends Remote {
 	 * @throws RemoteException 
 	 */
 	public List<Results> closeQuiz(int id) throws RemoteException;
+	/**
+	 * Retrieves the Quiz with the given ID
+	 * 
+	 * @param quizID
+	 * @return
+	 * @throws RemoteException
+	 */
+	public Quiz getQuiz(int quizID) throws RemoteException;
 	
 	
 }

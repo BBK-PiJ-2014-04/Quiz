@@ -87,5 +87,15 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer {
 		}
 		return null;
 	}
+	
+	@Override
+	public Quiz getQuiz(int quizID) throws RemoteException {
+		for(Quiz current : quizList) {
+			if(current.getQuizID() == quizID) {
+				return current;
+			}
+		}
+		return null;
+	}
 
 }
