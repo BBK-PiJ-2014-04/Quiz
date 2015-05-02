@@ -16,6 +16,7 @@ import server.QuizServer;
 public class CreatorClientImpl implements CreatorClient {
 	private QuizServer myQuizServer;
 	private static Scanner scanner = new Scanner( System.in );
+	private String input = "";
 	
 	public CreatorClientImpl() {
 		try {
@@ -36,7 +37,7 @@ public class CreatorClientImpl implements CreatorClient {
 	public User getCreator() throws RemoteException{
 		List<User> userList = myQuizServer.getListOfUsers();
 		if(userList.size() == 0) {
-			System.out.println("There are no users registered. Please create your user.")
+			System.out.println("There are no users registered. Please create your user.");
 			return null;
 		}
 		else {
@@ -45,7 +46,24 @@ public class CreatorClientImpl implements CreatorClient {
 		for(User current : userList) {
 			System.out.printf("%d ) %s", current.getId(),current.getName());
 		}
-		System.out.println("Please select your user (Write 'new' to create a new one): ");
+		System.out.print("Please select your user (Write 'new' to create a new one): ");
+		input = scanner.nextLine();
+		if(input.equals("new")) {
+			System.out.print("Please insert your username: ");
+			input = scanner.nextLine();
+			return myQuizServer.createUser(input);
+		}
+		else {
+			try {
+				return Integer.parseInt(input);
+			}
+			catch(Exception e) {
+				System.out.println("Please insert either a number to select a user or the word 'new' to create a new user");
+			}
+			finally {
+				getCreator();
+			}
+		}
 	}
 
 	@Override
@@ -55,7 +73,13 @@ public class CreatorClientImpl implements CreatorClient {
 	}
 
 	@Override
-	public void insertNewAnswer(Answer myAnswer, int idQuiz) {
+	public void insertNewAnswer(int quizID) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertNewQuestion(int quizID) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}

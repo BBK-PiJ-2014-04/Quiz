@@ -34,16 +34,18 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer {
 	}
 
 	@Override
-	public int createUser(String name) throws RemoteException {
+	public User createUser(String name) throws RemoteException {
 		int id = usersList.size();
+		User returnUser;
 		for(int i=0; i < usersList.size(); i++) {
 		   User current = usersList.get(i);
 		   if(current.getName().equals(name)) {
 			   throw new IllegalArgumentException("There's already a user with that name");
 		   }
 		}
-		usersList.add(new UserImpl(name,id));
-		return id;
+		returnUser = new UserImpl(name,id);
+		usersList.add(returnUser);
+		return returnUser;
 	}
 
 	@Override
@@ -74,6 +76,16 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer {
 	@Override
 	public List<Quiz> getListOfQuiz(int userID) throws RemoteException {
 		return quizList;
+	}
+
+	@Override
+	public User getUser(int userID) throws RemoteException {
+		for(User current : usersList) {
+			if(current.getId() == userID) {
+				return current;
+			}
+		}
+		return null;
 	}
 
 }

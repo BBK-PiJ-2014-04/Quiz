@@ -21,13 +21,21 @@ public interface CreateServer extends Remote {
 	 */
 	public List<User> getListOfUsers() throws RemoteException;
 	/**
+	 * Retrieves the user with the given ID
+	 * 
+	 * @param userID
+	 * @return the selected user
+	 * @throws RemoteException
+	 */
+	public User getUser(int userID) throws RemoteException;
+	/**
 	 * Create a new user
 	 * 
 	 * @param name
 	 * @return the id of the User created
 	 * @throws RemoteException 
 	 */
-	public int createUser(String name) throws RemoteException;
+	public User createUser(String name) throws RemoteException;
 	/**
 	 * Creation of a new Quiz
 	 * 
