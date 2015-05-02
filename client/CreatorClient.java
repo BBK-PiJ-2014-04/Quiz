@@ -3,6 +3,7 @@ package client;
 import java.rmi.RemoteException;
 
 import interfaces.Answer;
+import interfaces.Quiz;
 import interfaces.User;
 /**
  * Interface for the 'graphic' interface of the Creator Client
