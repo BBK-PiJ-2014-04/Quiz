@@ -25,7 +25,7 @@ public interface CreatorClient {
 	 * @return the Quiz ID
 	 * @throws RemoteException
 	 */
-	public int getQuiz() throws RemoteException;
+	public Quiz getQuiz() throws RemoteException;
 	/**
 	 * Process to insert a new answer
 	 * 
