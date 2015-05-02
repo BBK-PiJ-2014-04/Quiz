@@ -71,14 +71,35 @@ public class CreatorClientImpl implements CreatorClient {
 
 
 	@Override
-	public Quiz getQuiz() {
+	public Quiz getQuiz() throws RemoteException {
 		List<Quiz> quizList = myQuizServer.getListOfQuiz(actualUser.getId());
 		if(quizList.size() == 0) {
 			System.out.println("There are no quiz for this user. Please create a new quiz.");
-			
+			return createNewQuiz();
 		}
 		else {
-			
+			System.out.println("Here's the List of Registered Users:");
+			for(Quiz current : quizList) {
+				System.out.printf("%d ) %s", current.getQuizID(),current.getQuizName());
+			}
+			System.out.print("Please select one of your Quiz (Write 'new' to create a new one): ");
+			input = scanner.nextLine();
+			if(input.equals("new")) {
+				return createNewQuiz();
+			}
+			else if(input.equals("exit")) {
+				exitSystem();
+				return null;
+			}
+			else {
+				try {
+					return myQuizServer.getQuiz(Integer.parseInt(input));
+				}
+				catch(IllegalArgumentException e) {
+					System.out.println("Please insert either a number to select a user, the word 'new' to create a new user, the word 'exit' to Quit");
+					return getQuiz();
+				}
+			}
 		}
 	}
 
@@ -126,7 +147,16 @@ public class CreatorClientImpl implements CreatorClient {
 		int QuizID = newQuiz.getQuizID();
 		while(true) {
 			insertNewQuestion(QuizID);
-			
+			System.out.print("Is the Question inserting done? (Y/N)");
+			while(true) {
+				if(scanner.nextLine().equals("Y")) {
+					System.out.println("The Quiz has been successfully created");
+					return newQuiz;
+				}
+				else if(!scanner.nextLine().equals("N")) {
+					System.out.println("Please insert either 'Y' or 'N'");
+				}
+			}
 		}
 	}
 
