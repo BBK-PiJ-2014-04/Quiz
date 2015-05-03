@@ -1,5 +1,7 @@
 package server;
 
+import interfaces.CreateServer;
+
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -22,7 +24,7 @@ public class ServerLauncher {
 			// 2. Create the registry if there is not one
 			LocateRegistry.createRegistry(1099);
 			// 3. Create the server object
-			QuizServer server = new QuizServer();
+			CreateServer server = new QuizServer();
 			// 4. Register (bind) the server object on the registry.
 			// The registry may be on a different machine
 			String registryHost = "//localhost/";

@@ -1,39 +1,39 @@
 package client;
 
-import interfaces.Answer;
+import interfaces.CreateServer;
 import interfaces.Question;
 import interfaces.Quiz;
 import interfaces.User;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
 import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.List;
 import java.util.Scanner;
 
-import server.AnswerImpl;
 import server.QuestionImpl;
-import server.QuizImpl;
-import server.QuizServer;
 
 public class CreatorClientImpl implements CreatorClient {
-	private QuizServer myQuizServer;
+	private CreateServer myQuizServer;
 	private static Scanner scanner = new Scanner( System.in );
 	private String input = "";
 	private User actualUser;
 	
 	public CreatorClientImpl() {
-		try {
 			//System.out.println("tests");
-			Remote service = Naming.lookup("//127.0.0.1:1099/QuizServer");
-			myQuizServer = (QuizServer) service;
-			actualUser = getCreator();
-		} catch (MalformedURLException | RemoteException | NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			System.setProperty("java.security.policy","file:./server.policy");
+			if (System.getSecurityManager() == null) {
+				System.setSecurityManager(new SecurityManager());
+			}
+			try {
+				String name = "QuizServer";
+				Registry registry = LocateRegistry.getRegistry(1099);
+				this.myQuizServer = (CreateServer) registry.lookup(name);
+				actualUser = getCreator();		
+			} catch (RemoteException | NotBoundException e) {
+				e.printStackTrace();
+			}
 	}
 	
 	public static void main(String[] args) {
@@ -41,7 +41,6 @@ public class CreatorClientImpl implements CreatorClient {
 		try {
 			Quiz myQuiz = clientUser.getQuiz();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -1,12 +1,9 @@
 package server;
 
 import interfaces.CreateServer;
-import interfaces.Player;
-import interfaces.Question;
 import interfaces.Quiz;
 import interfaces.User;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
