@@ -23,6 +23,9 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer {
 	
 	protected QuizServer() throws RemoteException {
 		super();
+		this.usersList = new ArrayList<User>();
+		this.quizList = new ArrayList<Quiz>();
+		this.resultsSheet = new ArrayList<Results>();
 	}
 
 	@Override
