@@ -50,7 +50,7 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer {
 
 	@Override
 	public Quiz createQuiz(int userID) throws RemoteException {
-		Quiz newQuiz = new QuizImpl(userID);
+		Quiz newQuiz = new QuizImpl(userID, quizList.size());
 		quizList.add(newQuiz);
 		return newQuiz;
 	}

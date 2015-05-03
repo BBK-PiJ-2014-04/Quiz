@@ -18,9 +18,10 @@ public class QuizImpl extends UnicastRemoteObject implements Quiz {
 	private int quizCreatorID;
 	private Status quizStatus;
 	
-	public QuizImpl(int quizCreatorID) throws RemoteException {
+	public QuizImpl(int quizCreatorID, int quizID) throws RemoteException {
 		this.quizCreatorID = quizCreatorID;
 		this.quizStatus = Status.Opened;
+		this.QuizID = quizID;
 	}
 	
 	@Override
