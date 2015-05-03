@@ -1,5 +1,7 @@
 package server;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
@@ -8,7 +10,7 @@ import server.CustomTypes.Status;
 import interfaces.Question;
 import interfaces.Quiz;
 
-public class QuizImpl implements Quiz {
+public class QuizImpl extends UnicastRemoteObject implements Quiz {
 	private int QuizID;
 	private List<Question> questionsList;
 	private String quizName;
@@ -16,23 +18,23 @@ public class QuizImpl implements Quiz {
 	private int quizCreatorID;
 	private Status quizStatus;
 	
-	public QuizImpl(int quizCreatorID) {
+	public QuizImpl(int quizCreatorID) throws RemoteException {
 		this.quizCreatorID = quizCreatorID;
 		this.quizStatus = Status.Opened;
 	}
 	
 	@Override
-	public int getQuizID() {
+	public int getQuizID() throws RemoteException {
 		return QuizID;
 	}
 
 	@Override
-	public void addQuestion(Question newQuestion) {
+	public void addQuestion(Question newQuestion) throws RemoteException {
 		questionsList.add(newQuestion);
 	}
 
 	@Override
-	public boolean removeQuestion(int id) {
+	public boolean removeQuestion(int id) throws RemoteException {
 		Question questionToRemove = getQuestion(id);
 		if(questionToRemove != null) {
 			questionsList.remove(questionToRemove);
@@ -44,7 +46,7 @@ public class QuizImpl implements Quiz {
 	}
 
 	@Override
-	public Dictionary<Integer, String> getQuestionList() {
+	public Dictionary<Integer, String> getQuestionList() throws RemoteException {
 		Dictionary<Integer,String> questionsDictionary = new Hashtable<Integer, String>();
 		for(int i=0; i < questionsList.size(); i++) {
 			Question current = questionsList.get(i);
@@ -54,7 +56,7 @@ public class QuizImpl implements Quiz {
 	}
 
 	@Override
-	public Question getQuestion(int id) {
+	public Question getQuestion(int id) throws RemoteException {
 		for(int i=0; i < questionsList.size(); i++) {
 			Question current = questionsList.get(i);
 			if(current.getQuestionId() == id) {
@@ -65,17 +67,17 @@ public class QuizImpl implements Quiz {
 	}
 
 	@Override
-	public String getQuizName() {
+	public String getQuizName() throws RemoteException {
 		return quizName;
 	}
 	
 	@Override
-	public int getCreatorID() {
+	public int getCreatorID() throws RemoteException {
 		return quizCreatorID;
 	}
 
 	@Override
-	public void setQuizName(String name) {
+	public void setQuizName(String name) throws RemoteException {
 		if(name != null && name != "") {
 			this.quizName = name;
 		}
@@ -85,7 +87,7 @@ public class QuizImpl implements Quiz {
 	}
 
 	@Override
-	public void setInitialMessage(String text) {
+	public void setInitialMessage(String text) throws RemoteException {
 		if(text != null && text != "") {
 			this.initialMessage = text;
 		}
@@ -96,17 +98,17 @@ public class QuizImpl implements Quiz {
 	}
 
 	@Override
-	public String getInitialMessage() {
+	public String getInitialMessage() throws RemoteException {
 		return initialMessage;
 	}
 	
 	@Override
-	public Status getQuizStatus() {
+	public Status getQuizStatus() throws RemoteException {
 		return this.quizStatus;
 	}
 
 	@Override
-	public void setQuizStatus(Status status) {
+	public void setQuizStatus(Status status) throws RemoteException {
 		this.quizStatus = status;
 	}
 }

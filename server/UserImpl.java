@@ -18,12 +18,12 @@ public class UserImpl extends UnicastRemoteObject implements User {
 	}
 	
 	@Override
-	public String getName() {
+	public String getName() throws RemoteException {
 		return name;
 	}
 
 	@Override
-	public int getId() {
+	public int getId() throws RemoteException {
 		return id;
 	}
 
