@@ -40,6 +40,7 @@ public class CreatorClientImpl implements CreatorClient {
 		CreatorClientImpl clientUser = new CreatorClientImpl();
 		try {
 			Quiz myQuiz = clientUser.getQuiz();
+			System.out.println("test");
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -57,6 +58,7 @@ public class CreatorClientImpl implements CreatorClient {
 			System.out.println("Here's the List of Registered Users:");
 			for(User current : userList) {
 				System.out.printf("%d ) %s", current.getId(),current.getName());
+				System.out.println("");
 			}
 			System.out.print("Please select your user (Write 'new' to create a new one): ");
 			input = scanner.nextLine();
@@ -91,6 +93,7 @@ public class CreatorClientImpl implements CreatorClient {
 			System.out.println("Here's the List of the Quiz you have previously created:");
 			for(Quiz current : quizList) {
 				System.out.printf("%d ) %s", current.getQuizID(),current.getQuizName());
+				System.out.println("");
 			}
 			System.out.print("Please select one of your Quiz (Write 'new' to create a new one): ");
 			input = scanner.nextLine();
@@ -119,11 +122,12 @@ public class CreatorClientImpl implements CreatorClient {
 		String answerText = scanner.nextLine();
 		System.out.printf("Is it the correct answer for the Question '%s' (Y/N):", question.getQuestionText());
 		while(true) {
-			if(scanner.nextLine().equals("Y")) {
+			String corrAnswer = scanner.nextLine();
+			if(corrAnswer.equals("Y")) {
 				question.addAnswer(answerText, true);
 				break;
 			}
-			else if(scanner.nextLine().equals("N")) {
+			else if(corrAnswer.equals("N")) {
 				question.addAnswer(answerText, false);
 				break;
 			}
