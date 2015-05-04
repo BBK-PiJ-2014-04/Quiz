@@ -132,10 +132,10 @@ public class CreatorClientImpl implements CreatorClient {
 	
 	@Override
 	public void modifyAnswer(Answer answer, Question question) throws RemoteException {
-		System.out.printf("Insert the Answer text for the Question '%s':", question.getQuestionText());
+		System.out.printf("Insert the new Answer text for the Question '%s':", question.getQuestionText());
 		String answerText = scanner.nextLine();
 		boolean isCorrect = false;
-		System.out.printf("Is it the correct answer for the Question '%s' (Y/N):", question.getQuestionText());
+		System.out.printf("After the change, is it the correct answer for the Question '%s' (Y/N):", question.getQuestionText());
 		while(true) {
 			String corrAnswer = scanner.nextLine();
 			if(corrAnswer.equals("Y")) {
@@ -275,7 +275,7 @@ public class CreatorClientImpl implements CreatorClient {
 		}
 		else if(input.equals("mod questions")) {
 			for(Question current: quiz.getQuestionList()) {
-				System.out.printf("Do you want to modify the question: %s? (Any answer other than 'Y' or 'Yes', will be assumed as no)", current.getQuestionText());
+				System.out.printf("Do you want to modify the question: %s? (Any answer other than 'Y' or 'Yes', will be assumed as no):", current.getQuestionText());
 				String questionModify = scanner.nextLine();
 				if(questionModify.equals("Yes") || questionModify.equals("Y")) {
 					modifyQuestion(current, false);
@@ -300,10 +300,14 @@ public class CreatorClientImpl implements CreatorClient {
 			}
 		}
 		modifyGuideLines();
+		System.out.println("Here's the list of Answers for the question: " + question.getQuestionText());
 		for (Answer current : question.getAnswers() ) {
-			System.out.printf("%d ) %s", current.getID(),current.getText());
+			System.out.printf("%d ) %s %s", current.getID(),current.getText(),(current.isRight()) ? "correct" : "wrong");
 			System.out.println("");
 		}
+		System.out.println("Use the id as your parameter n to perform the operation (f.i. del 0 will delete the answer with id 0)");
+		System.out.println("");
+		System.out.println("Please insert your operation:");
 		input = scanner.nextLine();
 		if(input.equals("new")) {
 			insertNewAnswer(question);
@@ -319,6 +323,7 @@ public class CreatorClientImpl implements CreatorClient {
 		}
 		else if(input.startsWith("del ") && isInteger(input.split(" ")[1],10)) {	
 			question.delAnswer(Integer.parseInt(input.split(" ")[1]));
+			System.out.println("Answer succesfully Deleted");
 		}
 		else {
 			System.out.println("Please read the guidelines carefully, and try again!");
@@ -351,7 +356,7 @@ public class CreatorClientImpl implements CreatorClient {
 		System.out.println("* mod n, where n is the id of the answer, will allow you to modify the answer");
 		System.out.println("* info, will show these guidelines again");
 		System.out.println("* main menu, will go back to the main menu (list of Quiz)");
-		System.out.println("Please insert your operation:");
+		System.out.println("");
 	}
 	
 	/**
