@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import server.CustomTypes.Status;
 import server.QuestionImpl;
 
 public class CreatorClientImpl implements CreatorClient {
@@ -271,8 +272,33 @@ public class CreatorClientImpl implements CreatorClient {
 
 	@Override
 	public void modifyQuiz(Quiz quiz) throws RemoteException {
-		System.out.println("")
-		quizInitialSettings(quiz);
+		modifyQuizGuideLines();
+		if(input.equals("mod quiz")) {
+			quizInitialSettings(quiz);
+		}
+		else if(input.equals("info")) {
+			modifyQuiz(quiz);
+		}
+		else if(input.equals("main menu")) {
+			return;
+		}
+		else if(input.equals("info")) {
+			quiz.setQuizStatus(Status.Completed);
+		}
+		else if(input.equals("mod questions")) {
+			for(Question current: quiz.getQuestionList()) {
+				System.out.printf("Do you want to modify the question: %s? (Any answer other than 'Y' or 'Yes', will be assumed as no)", current.getQuestionText());
+				String questionModify = scanner.nextLine();
+				if(questionModify.equals("Yes") || questionModify.equals("Y")) {
+					modifyQuestion(current, false);
+				}
+			}
+		}
+		else {
+			System.out.println("Please read the guidelines carefully, and try again!");
+			modifyQuiz(quiz);
+		}
+		
 	}
 
 
@@ -296,6 +322,9 @@ public class CreatorClientImpl implements CreatorClient {
 		}
 		else if(input.equals("info")) {
 			modifyQuestion(question, true);
+		}
+		else if(input.equals("main menu")) {
+			return;
 		}
 		else if(input.startsWith("mod ") && isInteger(input.split(" ")[1],10)) {		
 			modifyAnswer(question.getAnswerFromList(Integer.parseInt(input.split(" ")[1])), question);

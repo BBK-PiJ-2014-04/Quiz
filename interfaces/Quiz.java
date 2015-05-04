@@ -3,6 +3,7 @@ package interfaces;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Dictionary;
+import java.util.List;
 
 import server.CustomTypes.Status;
 
@@ -28,9 +29,9 @@ public interface Quiz extends Remote {
 	public boolean removeQuestion(int id) throws RemoteException;
 	/**
 	 * Gets all the questions that have been previously added to the Quiz List
-	 * @return 
+	 * @return list of all the question
 	 */
-	public Dictionary<?, ?> getQuestionList() throws RemoteException;
+	public List<Question> getQuestionList() throws RemoteException;
 	/**
 	 * Gets the question of the given id.
 	 * 

@@ -2,6 +2,7 @@ package server;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
@@ -47,11 +48,11 @@ public class QuizImpl extends UnicastRemoteObject implements Quiz {
 	}
 
 	@Override
-	public Dictionary<Integer, String> getQuestionList() throws RemoteException {
-		Dictionary<Integer,String> questionsDictionary = new Hashtable<Integer, String>();
+	public List<Question> getQuestionList() throws RemoteException {
+		List<Question> questionsDictionary = new ArrayList<Question>();
 		for(int i=0; i < questionsList.size(); i++) {
 			Question current = questionsList.get(i);
-			questionsDictionary.put(current.getQuestionId(), current.getQuestionText());
+			questionsDictionary.add(current);
 		}
 		return questionsDictionary;
 	}
