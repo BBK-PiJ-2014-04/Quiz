@@ -21,7 +21,6 @@ public class CreatorClientImpl implements CreatorClient {
 	private User actualUser;
 	
 	public CreatorClientImpl() {
-			//System.out.println("tests");
 			System.setProperty("java.security.policy","file:./server.policy");
 			if (System.getSecurityManager() == null) {
 				System.setSecurityManager(new SecurityManager());
@@ -39,8 +38,20 @@ public class CreatorClientImpl implements CreatorClient {
 	public static void main(String[] args) {
 		CreatorClientImpl clientUser = new CreatorClientImpl();
 		try {
-			Quiz myQuiz = clientUser.getQuiz();
-			System.out.println("test");
+			System.out.println("Hello! Welcome to the Quiz Creator System");
+			System.out.println("You will be asked to 'login' in order to access your list of Quiz.");
+			System.out.println("A list of Users/Quiz will be printed, with their ID specified on the left. To select them, simply type the number.");
+			System.out.println("You can also use the keyword 'new' to create a new User/Quiz or the keyword 'exit' to quit the program");
+			System.out.println("Once you select one Quiz, the Quiz can be closed or modified (Question/Answers)");
+			System.out.println("Once you close one Quiz, the scores will be sent and no one will be able to play it anymore");
+			System.out.println("Have fun!");
+			while(true) {
+				Quiz myQuiz = clientUser.getQuiz();
+				System.out.println("Do you want to exit the program? (Any answer other than 'Y' or 'Yes', will be assumed as no");
+				if(scanner.nextLine().equals("Y") || scanner.nextLine().equals("Yes")) {
+					exitSystem();
+				}
+			}
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -147,14 +158,16 @@ public class CreatorClientImpl implements CreatorClient {
 		while(true) {
 			insertNewAnswer(nextQuestion);
 			System.out.print("Is the Answer inserting done? (Y/N)");
-			while(true) {
-				if(scanner.nextLine().equals("Y")) {
-					System.out.println("The Quiz has been successfully created");
-					break;
+			String answerDone;
+			do {
+				answerDone = scanner.nextLine();
+				if(!(answerDone.equals("Y") || answerDone.equals("N"))) {
+					System.out.println("Please insert either 'Y' or 'N':");
 				}
-				else if(!scanner.nextLine().equals("N")) {
-					System.out.println("Please insert either 'Y' or 'N'");
-				}
+			} while(!(answerDone.equals("Y") || answerDone.equals("N")));
+			if(answerDone.equals("Y")) {
+				System.out.println("The Quiz has been successfully created");
+				break;
 			}
 		}
 		
@@ -163,7 +176,7 @@ public class CreatorClientImpl implements CreatorClient {
 	/**
 	 * Quits the execution of the program
 	 */
-	private void exitSystem() {
+	private static void exitSystem() {
 		System.out.print("Thank you for using our system, farewell!");
 		System.exit(0);
 	}
@@ -198,14 +211,14 @@ public class CreatorClientImpl implements CreatorClient {
 		int QuizID = newQuiz.getQuizID();
 		while(true) {
 			insertNewQuestion(QuizID);
-			System.out.print("Is the Question inserting done? (Y/N)");
+			System.out.print("Is the Question inserting done? (Y/N):");
 			while(true) {
 				if(scanner.nextLine().equals("Y")) {
 					System.out.println("The Quiz has been successfully created");
 					return newQuiz;
 				}
 				else if(!scanner.nextLine().equals("N")) {
-					System.out.println("Please insert either 'Y' or 'N'");
+					System.out.println("Please insert either 'Y' or 'N':");
 				}
 			}
 		}

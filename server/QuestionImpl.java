@@ -1,5 +1,6 @@
 package server;
 
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
@@ -11,6 +12,10 @@ public class QuestionImpl implements Question {
 	private int questionID;
 	private String text;
 	private List<Answer> answersList;
+	
+	public QuestionImpl() {
+		this.answersList = new ArrayList<Answer>();
+	}
 	
 	@Override
 	public int getQuestionId() {
