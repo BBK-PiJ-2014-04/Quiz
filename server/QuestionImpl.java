@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import interfaces.Answer;
 import interfaces.Question;
@@ -75,13 +76,8 @@ public class QuestionImpl implements Question {
 	}
 
 	@Override
-	public Dictionary<Integer, String> getAnswers() {
-		Dictionary<Integer,String> answersDictionary = new Hashtable<Integer, String>();
-		for(int i=0; i < answersList.size(); i++) {
-			Answer current = answersList.get(i);
-			answersDictionary.put(current.getID(), current.getText());
-		}
-		return answersDictionary;
+	public List<Answer> getAnswers() {
+		return this.answersList;
 	}
 	
 	public Answer getAnswerFromList(int id) {

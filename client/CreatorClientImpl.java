@@ -1,5 +1,6 @@
 package client;
 
+import interfaces.Answer;
 import interfaces.CreateServer;
 import interfaces.Question;
 import interfaces.Quiz;
@@ -9,7 +10,9 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Dictionary;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import server.QuestionImpl;
@@ -148,6 +151,31 @@ public class CreatorClientImpl implements CreatorClient {
 		}
 		System.out.println("Answer successfully inserted");
 	}
+	
+	@Override
+	public void modifyAnswer(Answer answer, Question question) {
+		System.out.printf("Insert the Answer text for the Question '%s':", question.getQuestionText());
+		String answerText = scanner.nextLine();
+		boolean isCorrect = false;
+		System.out.printf("Is it the correct answer for the Question '%s' (Y/N):", question.getQuestionText());
+		while(true) {
+			String corrAnswer = scanner.nextLine();
+			if(corrAnswer.equals("Y")) {
+				isCorrect = true;
+				break;
+			}
+			else if(corrAnswer.equals("N")) {
+				isCorrect = false;
+				break;
+			}
+			else {
+				System.out.println("Please insert either 'Y' or 'N'");
+			}
+		}
+		answer.changeText(answerText);
+		answer.changeTrueValue(isCorrect);
+		System.out.println("Answer successfully modified");
+	}
 
 	@Override
 	public void insertNewQuestion(int quizID) throws RemoteException {
@@ -200,7 +228,6 @@ public class CreatorClientImpl implements CreatorClient {
 	 * @throws RemoteException
 	 */
 	private Quiz createNewQuiz() throws RemoteException {
-		String quizName, quizInitialMessage;
 		Quiz newQuiz = myQuizServer.createQuiz(actualUser.getId());
 		quizInitialSettings(newQuiz);
 		int QuizID = newQuiz.getQuizID();
@@ -244,7 +271,87 @@ public class CreatorClientImpl implements CreatorClient {
 
 	@Override
 	public void modifyQuiz(Quiz quiz) throws RemoteException {
+		System.out.println("")
 		quizInitialSettings(quiz);
 	}
 
+
+	@Override
+	public void modifyQuestion(Question question, boolean skipFirstPart) throws RemoteException {
+		if(!skipFirstPart) {
+			System.out.println("Modify the Question text (leave it empty to skip):");
+			String questionText = scanner.nextLine();
+			if(!questionText.equals("")) {
+				question.setQuestionText(questionText);
+			}
+		}
+		modifyGuideLines();
+		for (Answer current : question.getAnswers() ) {
+			System.out.printf("%d ) %s", current.getID(),current.getText());
+			System.out.println("");
+		}
+		input = scanner.nextLine();
+		if(input.equals("new")) {
+			insertNewAnswer(question);
+		}
+		else if(input.equals("info")) {
+			modifyQuestion(question, true);
+		}
+		else if(input.startsWith("mod ") && isInteger(input.split(" ")[1],10)) {		
+			modifyAnswer(question.getAnswerFromList(Integer.parseInt(input.split(" ")[1])), question);
+		}
+		else if(input.startsWith("del ") && isInteger(input.split(" ")[1],10)) {	
+			question.delAnswer(Integer.parseInt(input.split(" ")[1]));
+		}
+		else {
+			System.out.println("Please read the guidelines carefully, and try again!");
+			modifyQuestion(question, true);
+		}
+	}
+	/**
+	 * Prints the guidelines to modify the Quiz
+	 */
+	private void modifyQuizGuideLines() {
+		System.out.println("You now have five possible operations: close, mod quiz, mod questions, info, main menu");
+		System.out.println("The formats of the operations are the following:");
+		System.out.println("* close, will close the quiz and make the scores available");
+		System.out.println("* mod quiz, will allow you to modify the ");
+		System.out.println("* mod questions, will allow you to change questions and answers");
+		System.out.println("* info, will show these guidelines again");
+		System.out.println("* main menu, will go back to the main menu (list of Quiz)");
+		System.out.println("");
+	}
+	/**
+	 * Prints the guidelines to modify Questions and answers
+	 */
+	private void modifyGuideLines() {
+		System.out.println("You now have four possible operations: del, new, mod, info, main menu");
+		System.out.println("The formats of the operations are the following:");
+		System.out.println("* del n, where n is the id of the answer, will delete the answer");
+		System.out.println("* new, will allow you to add answers to the question");
+		System.out.println("* mod n, where n is the id of the answer, will allow you to modify the answer");
+		System.out.println("* info, will show these guidelines again");
+		System.out.println("* main menu, will go back to the main menu (list of Quiz)");
+		System.out.println("");
+	}
+	
+	/**
+	 * Tells if a string is an Integer
+	 * 
+	 * @param s
+	 * @param radix
+	 * @return
+	 */
+	//Thanks StackOverflow
+	public static boolean isInteger(String s, int radix) {
+	    if(s.isEmpty()) return false;
+	    for(int i = 0; i < s.length(); i++) {
+	        if(i == 0 && s.charAt(i) == '-') {
+	            if(s.length() == 1) return false;
+	            else continue;
+	        }
+	        if(Character.digit(s.charAt(i),radix) < 0) return false;
+	    }
+	    return true;
+	}
 }
