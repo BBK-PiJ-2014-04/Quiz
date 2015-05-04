@@ -1,0 +1,6 @@
+The serverLauncher class starts the Server program.
+When that one is up and running, the CreatorClientImpl class can be run 
+and this represent the actual interface of the program (I might put the actual interface (main method) on another file, but at the moment I'll leave it like this)
+When the interface is running, it is quite self-explicative, I tried to add as many guidelines as possible (also set validation),
+It isn't perfectly accurate (and still has bug as the 04/05/2015) but the program as a whole it seems to be working fine.
+I'm going to run tests on this part ASAP and start the actual game part (even though I'll keep it as simple as possible).
