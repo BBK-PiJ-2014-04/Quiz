@@ -1,17 +1,21 @@
 package server;
 
+import interfaces.Answer;
 import interfaces.CreateServer;
+import interfaces.PlayingServer;
 import interfaces.Quiz;
 import interfaces.User;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import server.CustomTypes.Status;
 
-public class QuizServer extends UnicastRemoteObject implements CreateServer {
+public class QuizServer extends UnicastRemoteObject implements CreateServer,PlayingServer {
 
 
 	private static final long serialVersionUID = -6897311723118574615L;
@@ -19,6 +23,7 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer {
 	private List<User> usersList;
 	private List<Quiz> quizList;
 	private List<Results> resultsSheet;
+	private List<Results> partialScoreSheet;
 	
 	
 	protected QuizServer() throws RemoteException {
@@ -26,15 +31,16 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer {
 		this.usersList = new ArrayList<User>();
 		this.quizList = new ArrayList<Quiz>();
 		this.resultsSheet = new ArrayList<Results>();
+		this.partialScoreSheet = new ArrayList<Results>();
 	}
 
 	@Override
-	public List<User> getListOfUsers() throws RemoteException {
+	public synchronized List<User> getListOfUsers() throws RemoteException {
 		return usersList;
 	}
 
 	@Override
-	public User createUser(String name) throws RemoteException {
+	public synchronized User createUser(String name) throws RemoteException {
 		int id = usersList.size();
 		User returnUser;
 		for(int i=0; i < usersList.size(); i++) {
@@ -78,7 +84,7 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer {
 	public List<Quiz> getListOfQuiz(int userID) throws RemoteException {
 		List<Quiz> quizList = new ArrayList<Quiz>();
 		for(Quiz current : this.quizList) {
-			if(current.getQuizStatus().equals(Status.Opened)) {
+			if(current.getQuizStatus().equals(Status.Opened) && current.getCreatorID() == userID) {
 				quizList.add(current);
 			}
 		}
@@ -96,7 +102,7 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer {
 	}
 	
 	@Override
-	public Quiz getQuiz(int quizID) throws RemoteException {
+	public synchronized Quiz getQuiz(int quizID) throws RemoteException {
 		for(Quiz current : quizList) {
 			if(current.getQuizID() == quizID) {
 				return current;
@@ -104,5 +110,47 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer {
 		}
 		return null;
 	}
+
+	@Override
+	public List<Quiz> getListOfQuiz() throws RemoteException {
+		List<Quiz> quizList = new ArrayList<Quiz>();
+		for(Quiz current : this.quizList) {
+			if(current.getQuizStatus().equals(Status.Opened)) {
+				quizList.add(current);
+			}
+		}
+		return quizList;
+	}
+
+	@Override
+	public int getScoreForQuestion(Answer answer) throws RemoteException {
+		return (answer.isRight()) ? 1 : 0;
+	}
+
+	@Override
+	public int getScore(Quiz quiz,User user) throws RemoteException {
+		for(Results current : partialScoreSheet) {
+			if(current.getPlayerID() == user.getId() && current.getQuizID() == quiz.getQuizID()) {
+				return current.getScore();
+			}
+		}
+		return 0;
+	}
+
+	@Override
+	public void updateScore(Quiz quiz, User user, int scoreUpdate) throws RemoteException {
+		for(Results current : partialScoreSheet) {
+			if(current.getPlayerID() == user.getId() && current.getQuizID() == quiz.getQuizID()) {
+				current.setScore(current.getScore() + scoreUpdate);
+				return;
+			}
+		}
+		Results newResult = new Results();
+		newResult.setQuizID(quiz.getQuizID());
+		newResult.setPlayerID(user.getId());
+		newResult.setScore(scoreUpdate);
+		partialScoreSheet.add(newResult);
+	}
+
 
 }

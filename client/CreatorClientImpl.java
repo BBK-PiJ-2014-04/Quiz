@@ -270,7 +270,7 @@ public class CreatorClientImpl implements CreatorClient {
 		else if(input.equals("main menu")) {
 			return;
 		}
-		else if(input.equals("info")) {
+		else if(input.equals("close")) {
 			quiz.setQuizStatus(Status.Completed);
 		}
 		else if(input.equals("mod questions")) {
