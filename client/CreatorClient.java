@@ -43,5 +43,12 @@ public interface CreatorClient {
 	 * @throws RemoteException
 	 */
 	public void insertNewQuestion(int quizID) throws RemoteException;
+	/**
+	 * Process to Modify the (Text, Message, questions, answers)
+	 * 
+	 * @param question
+	 * @throws RemoteException 
+	 */
+	public void modifyQuiz(Quiz quiz) throws RemoteException;
 	
 }

@@ -202,12 +202,7 @@ public class CreatorClientImpl implements CreatorClient {
 	private Quiz createNewQuiz() throws RemoteException {
 		String quizName, quizInitialMessage;
 		Quiz newQuiz = myQuizServer.createQuiz(actualUser.getId());
-		System.out.print("Please insert a new Name for the Quiz:");
-		quizName = scanner.nextLine();
-		System.out.println("Thanks! Please insert now the message that will be displayed at the beginning of the Quiz for the players");
-		quizInitialMessage = scanner.nextLine();
-		newQuiz.setQuizName(quizName);
-		newQuiz.setInitialMessage(quizInitialMessage);
+		quizInitialSettings(newQuiz);
 		int QuizID = newQuiz.getQuizID();
 		while(true) {
 			insertNewQuestion(QuizID);
@@ -222,6 +217,34 @@ public class CreatorClientImpl implements CreatorClient {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Sets the initial message and the name of the Quiz (For both creation and modification)
+	 * 
+	 * @param newQuiz
+	 * @throws RemoteException
+	 */
+	private void quizInitialSettings(Quiz newQuiz) throws RemoteException {
+		String quizName;
+		String quizInitialMessage;
+		if(newQuiz.getQuizName() != "") {
+			System.out.println("Current Quiz Name: " + newQuiz.getQuizName());
+		}
+		if(newQuiz.getInitialMessage() != "") {
+			System.out.println("Current Quiz Message: " + newQuiz.getInitialMessage());
+		}
+		System.out.print("Please insert a Name for the Quiz:");
+		quizName = scanner.nextLine();
+		System.out.println("Thanks! Please insert now the message that will be displayed at the beginning of the Quiz for the players");
+		quizInitialMessage = scanner.nextLine();
+		newQuiz.setQuizName(quizName);
+		newQuiz.setInitialMessage(quizInitialMessage);
+	}
+
+	@Override
+	public void modifyQuiz(Quiz quiz) throws RemoteException {
+		quizInitialSettings(quiz);
 	}
 
 }
