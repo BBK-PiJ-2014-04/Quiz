@@ -23,6 +23,7 @@ public class QuizImpl extends UnicastRemoteObject implements Quiz {
 		this.quizCreatorID = quizCreatorID;
 		this.quizStatus = Status.Opened;
 		this.QuizID = quizID;
+		this.questionsList = new ArrayList<Question>();
 	}
 	
 	@Override
@@ -49,12 +50,7 @@ public class QuizImpl extends UnicastRemoteObject implements Quiz {
 
 	@Override
 	public List<Question> getQuestionList() throws RemoteException {
-		List<Question> questionsDictionary = new ArrayList<Question>();
-		for(int i=0; i < questionsList.size(); i++) {
-			Question current = questionsList.get(i);
-			questionsDictionary.add(current);
-		}
-		return questionsDictionary;
+		return questionsList;
 	}
 
 	@Override

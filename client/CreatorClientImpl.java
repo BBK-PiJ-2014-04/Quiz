@@ -20,7 +20,7 @@ import server.QuestionImpl;
 
 public class CreatorClientImpl implements CreatorClient {
 	private CreateServer myQuizServer;
-	private static Scanner scanner = new Scanner( System.in );
+	public static Scanner scanner = new Scanner( System.in );
 	private String input = "";
 	private User actualUser;
 	
@@ -39,29 +39,6 @@ public class CreatorClientImpl implements CreatorClient {
 			}
 	}
 	
-	public static void main(String[] args) {
-		CreatorClientImpl clientUser = new CreatorClientImpl();
-		try {
-			System.out.println("Hello! Welcome to the Quiz Creator System");
-			System.out.println("You will be asked to 'login' in order to access your list of Quiz.");
-			System.out.println("A list of Users/Quiz will be printed, with their ID specified on the left. To select them, simply type the number.");
-			System.out.println("You can also use the keyword 'new' to create a new User/Quiz or the keyword 'exit' to quit the program");
-			System.out.println("Once you select one Quiz, the Quiz can be closed or modified (Question/Answers)");
-			System.out.println("Once you close one Quiz, the scores will be sent and no one will be able to play it anymore");
-			System.out.println("Have fun!");
-			while(true) {
-				Quiz myQuiz = clientUser.getQuiz();
-				System.out.println("Do you want to exit the program? (Any answer other than 'Y' or 'Yes', will be assumed as no");
-				if(scanner.nextLine().equals("Y") || scanner.nextLine().equals("Yes")) {
-					exitSystem();
-				}
-			}
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-		
-	}
-
 	@Override
 	public User getCreator() throws RemoteException{
 		List<User> userList = myQuizServer.getListOfUsers();
@@ -107,8 +84,10 @@ public class CreatorClientImpl implements CreatorClient {
 		else {
 			System.out.println("Here's the List of the Quiz you have previously created:");
 			for(Quiz current : quizList) {
-				System.out.printf("%d ) %s", current.getQuizID(),current.getQuizName());
-				System.out.println("");
+				if(current.getQuizStatus().equals(Status.Opened)) {
+					System.out.printf("%d ) %s", current.getQuizID(),current.getQuizName());
+					System.out.println("");
+				}
 			}
 			System.out.print("Please select one of your Quiz (Write 'new' to create a new one): ");
 			input = scanner.nextLine();
@@ -147,7 +126,7 @@ public class CreatorClientImpl implements CreatorClient {
 				break;
 			}
 			else {
-				System.out.println("Please insert either 'Y' or 'N'");
+				System.out.println("Please insert either 'Y' or 'N':");
 			}
 		}
 		System.out.println("Answer successfully inserted");
@@ -170,7 +149,7 @@ public class CreatorClientImpl implements CreatorClient {
 				break;
 			}
 			else {
-				System.out.println("Please insert either 'Y' or 'N'");
+				System.out.println("Please insert either 'Y' or 'N':");
 			}
 		}
 		answer.changeText(answerText);
@@ -181,21 +160,21 @@ public class CreatorClientImpl implements CreatorClient {
 	@Override
 	public void insertNewQuestion(int quizID) throws RemoteException {
 		Question nextQuestion = new QuestionImpl();
-		System.out.println("Insert the Question text:");
+		System.out.print("Insert the Question text:");
 		String questionText = scanner.nextLine();
 		nextQuestion.setQuestionText(questionText);
 		while(true) {
 			insertNewAnswer(nextQuestion);
-			System.out.print("Is the Answer inserting done? (Y/N)");
+			System.out.print("Is the Answer inserting done? (Y/N):");
 			String answerDone;
 			do {
 				answerDone = scanner.nextLine();
 				if(!(answerDone.equals("Y") || answerDone.equals("N"))) {
-					System.out.println("Please insert either 'Y' or 'N':");
+					System.out.print("Please insert either 'Y' or 'N':");
 				}
 			} while(!(answerDone.equals("Y") || answerDone.equals("N")));
 			if(answerDone.equals("Y")) {
-				System.out.println("The Quiz has been successfully created");
+				System.out.println("The Question has been successfully inserted");
 				break;
 			}
 		}
@@ -205,7 +184,7 @@ public class CreatorClientImpl implements CreatorClient {
 	/**
 	 * Quits the execution of the program
 	 */
-	private static void exitSystem() {
+	public void exitSystem() {
 		System.out.print("Thank you for using our system, farewell!");
 		System.exit(0);
 	}
@@ -235,14 +214,16 @@ public class CreatorClientImpl implements CreatorClient {
 		while(true) {
 			insertNewQuestion(QuizID);
 			System.out.print("Is the Question inserting done? (Y/N):");
-			while(true) {
-				if(scanner.nextLine().equals("Y")) {
-					System.out.println("The Quiz has been successfully created");
-					return newQuiz;
-				}
-				else if(!scanner.nextLine().equals("N")) {
+			String questionDone;
+			do {
+				questionDone = scanner.nextLine();
+				if(!(questionDone.equals("Y") || questionDone.equals("N"))) {
 					System.out.println("Please insert either 'Y' or 'N':");
 				}
+			} while(!(questionDone.equals("Y") || questionDone.equals("N")));
+			if(questionDone.equals("Y")) {
+				System.out.println("The Quiz has been successfully inserted");
+				return newQuiz;
 			}
 		}
 	}
@@ -256,10 +237,10 @@ public class CreatorClientImpl implements CreatorClient {
 	private void quizInitialSettings(Quiz newQuiz) throws RemoteException {
 		String quizName;
 		String quizInitialMessage;
-		if(newQuiz.getQuizName() != "") {
+		if(newQuiz.getQuizName() != null) {
 			System.out.println("Current Quiz Name: " + newQuiz.getQuizName());
 		}
-		if(newQuiz.getInitialMessage() != "") {
+		if(newQuiz.getInitialMessage() != null) {
 			System.out.println("Current Quiz Message: " + newQuiz.getInitialMessage());
 		}
 		System.out.print("Please insert a Name for the Quiz:");
@@ -273,6 +254,7 @@ public class CreatorClientImpl implements CreatorClient {
 	@Override
 	public void modifyQuiz(Quiz quiz) throws RemoteException {
 		modifyQuizGuideLines();
+		String input = scanner.nextLine();
 		if(input.equals("mod quiz")) {
 			quizInitialSettings(quiz);
 		}
@@ -341,19 +323,21 @@ public class CreatorClientImpl implements CreatorClient {
 	 * Prints the guidelines to modify the Quiz
 	 */
 	private void modifyQuizGuideLines() {
+		System.out.println("");
 		System.out.println("You now have five possible operations: close, mod quiz, mod questions, info, main menu");
 		System.out.println("The formats of the operations are the following:");
 		System.out.println("* close, will close the quiz and make the scores available");
-		System.out.println("* mod quiz, will allow you to modify the ");
+		System.out.println("* mod quiz, will allow you to modify the Quiz name and message");
 		System.out.println("* mod questions, will allow you to change questions and answers");
 		System.out.println("* info, will show these guidelines again");
 		System.out.println("* main menu, will go back to the main menu (list of Quiz)");
-		System.out.println("");
+		System.out.println("Please insert your operation:");
 	}
 	/**
 	 * Prints the guidelines to modify Questions and answers
 	 */
 	private void modifyGuideLines() {
+		System.out.println("");
 		System.out.println("You now have four possible operations: del, new, mod, info, main menu");
 		System.out.println("The formats of the operations are the following:");
 		System.out.println("* del n, where n is the id of the answer, will delete the answer");
@@ -361,7 +345,7 @@ public class CreatorClientImpl implements CreatorClient {
 		System.out.println("* mod n, where n is the id of the answer, will allow you to modify the answer");
 		System.out.println("* info, will show these guidelines again");
 		System.out.println("* main menu, will go back to the main menu (list of Quiz)");
-		System.out.println("");
+		System.out.println("Please insert your operation:");
 	}
 	
 	/**
