@@ -39,10 +39,10 @@ public interface CreatorClient {
 	/**
 	 * Process to insert a new Question
 	 * 
-	 * @param quizID
+	 * @return the inserted question
 	 * @throws RemoteException
 	 */
-	public void insertNewQuestion(int quizID) throws RemoteException;
+	public 	Question insertNewQuestion() throws RemoteException;
 	/**
 	 * Process to Modify the (Text, Message, questions, answers)
 	 * 
@@ -63,8 +63,9 @@ public interface CreatorClient {
 	 * 
 	 * @param question
 	 * @param answer
+	 * @throws RemoteException 
 	 */
-	public void modifyAnswer(Answer answer, Question question);
-	
+	public void modifyAnswer(Answer answer, Question question) throws RemoteException;
+
 	
 }

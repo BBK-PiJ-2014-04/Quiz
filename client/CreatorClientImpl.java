@@ -10,9 +10,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.Dictionary;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 import server.CustomTypes.Status;
@@ -20,7 +18,7 @@ import server.QuestionImpl;
 
 public class CreatorClientImpl implements CreatorClient {
 	private CreateServer myQuizServer;
-	public static Scanner scanner = new Scanner( System.in );
+	public Scanner scanner = new Scanner( System.in );
 	private String input = "";
 	private User actualUser;
 	
@@ -111,7 +109,7 @@ public class CreatorClientImpl implements CreatorClient {
 	}
 
 	@Override
-	public void insertNewAnswer(Question question) {
+	public void insertNewAnswer(Question question) throws RemoteException {
 		System.out.printf("Insert the Answer text for the Question '%s':", question.getQuestionText());
 		String answerText = scanner.nextLine();
 		System.out.printf("Is it the correct answer for the Question '%s' (Y/N):", question.getQuestionText());
@@ -133,7 +131,7 @@ public class CreatorClientImpl implements CreatorClient {
 	}
 	
 	@Override
-	public void modifyAnswer(Answer answer, Question question) {
+	public void modifyAnswer(Answer answer, Question question) throws RemoteException {
 		System.out.printf("Insert the Answer text for the Question '%s':", question.getQuestionText());
 		String answerText = scanner.nextLine();
 		boolean isCorrect = false;
@@ -158,7 +156,7 @@ public class CreatorClientImpl implements CreatorClient {
 	}
 
 	@Override
-	public void insertNewQuestion(int quizID) throws RemoteException {
+	public Question insertNewQuestion() throws RemoteException {
 		Question nextQuestion = new QuestionImpl();
 		System.out.print("Insert the Question text:");
 		String questionText = scanner.nextLine();
@@ -175,7 +173,7 @@ public class CreatorClientImpl implements CreatorClient {
 			} while(!(answerDone.equals("Y") || answerDone.equals("N")));
 			if(answerDone.equals("Y")) {
 				System.out.println("The Question has been successfully inserted");
-				break;
+				return nextQuestion;
 			}
 		}
 		
@@ -196,9 +194,18 @@ public class CreatorClientImpl implements CreatorClient {
 	 * @throws RemoteException
 	 */
 	private User createNewUser() throws RemoteException {
-		System.out.print("Please insert your username: ");
-		input = scanner.nextLine();
-		return myQuizServer.createUser(input);
+		while(true) {
+			System.out.print("Please insert your username: ");
+			input = scanner.nextLine();
+			if(input != "") { 
+				User createdUser = myQuizServer.createUser(input);
+				if(createdUser != null) {
+					return createdUser;
+				}
+			}
+			System.out.println("The inserted username is not valid (either in use or empty)");
+			System.out.println("");
+		}
 	}
 	
 	/**
@@ -210,9 +217,8 @@ public class CreatorClientImpl implements CreatorClient {
 	private Quiz createNewQuiz() throws RemoteException {
 		Quiz newQuiz = myQuizServer.createQuiz(actualUser.getId());
 		quizInitialSettings(newQuiz);
-		int QuizID = newQuiz.getQuizID();
 		while(true) {
-			insertNewQuestion(QuizID);
+			newQuiz.addQuestion(insertNewQuestion());
 			System.out.print("Is the Question inserting done? (Y/N):");
 			String questionDone;
 			do {

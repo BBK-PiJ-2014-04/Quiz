@@ -1,14 +1,17 @@
 package server;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
 import interfaces.Answer;
 
-public class AnswerImpl implements Answer {
+public class AnswerImpl extends UnicastRemoteObject implements Answer {
 	private int answerID;
 	private int relatedQuestionID;
 	private String answerText;
 	private boolean isRight;
 	
-	public AnswerImpl(int answerID,String text, int questionID, boolean isRight) {
+	public AnswerImpl(int answerID,String text, int questionID, boolean isRight) throws RemoteException {
 		this.answerID = answerID;
 		this.relatedQuestionID = questionID;
 		this.isRight = isRight;
@@ -21,25 +24,25 @@ public class AnswerImpl implements Answer {
 	}
 	
 	@Override
-	public int getQuestionID() {
+	public int getQuestionID() throws RemoteException {
 		return relatedQuestionID;
 	}
 	
 	@Override
-	public int getID() {
+	public int getID() throws RemoteException {
 		return answerID;
 	}
 	@Override
-	public String getText() {
+	public String getText() throws RemoteException {
 		return answerText;
 	}
 	@Override
-	public boolean isRight() {
+	public boolean isRight() throws RemoteException {
 		return isRight;
 	}
 
 	@Override
-	public void changeText(String text) {
+	public void changeText(String text) throws RemoteException {
 		if(text != null && text != "") {
 			this.answerText = text;
 		}
@@ -49,7 +52,7 @@ public class AnswerImpl implements Answer {
 	}
 
 	@Override
-	public void changeTrueValue(boolean trueValue) {
+	public void changeTrueValue(boolean trueValue) throws RemoteException {
 		this.isRight = trueValue;
 	}
 }

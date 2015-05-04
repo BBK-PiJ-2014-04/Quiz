@@ -40,7 +40,8 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer {
 		for(int i=0; i < usersList.size(); i++) {
 		   User current = usersList.get(i);
 		   if(current.getName().equals(name)) {
-			   throw new IllegalArgumentException("There's already a user with that name");
+			   System.out.println("There's already a user with that name; the user won't be created");
+			   return null;
 		   }
 		}
 		returnUser = new UserImpl(name,id);

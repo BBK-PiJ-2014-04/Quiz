@@ -2,7 +2,6 @@ package interfaces;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Dictionary;
 import java.util.List;
 
 import server.CustomTypes.Status;
