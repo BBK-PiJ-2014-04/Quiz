@@ -1,13 +1,17 @@
 package game;
 
 import interfaces.Answer;
+import interfaces.CreateServer;
 import interfaces.Player;
 import interfaces.PlayingServer;
 import interfaces.Question;
 import interfaces.Quiz;
 import interfaces.User;
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,9 +21,21 @@ public class PlayerClientImpl implements PlayerClient {
 	
 	private PlayingServer myQuizServer;
 	public Scanner scanner = new Scanner( System.in );
+	public User actualPlayer;
 	
 	public PlayerClientImpl() {
-		
+		System.setProperty("java.security.policy","file:./server.policy");
+		if (System.getSecurityManager() == null) {
+			System.setSecurityManager(new SecurityManager());
+		}
+		try {
+			String name = "QuizServer";
+			Registry registry = LocateRegistry.getRegistry(1099);
+			this.myQuizServer = (PlayingServer) registry.lookup(name);
+			actualPlayer = getPlayer();		
+		} catch (RemoteException | NotBoundException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
