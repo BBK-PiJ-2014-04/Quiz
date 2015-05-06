@@ -112,7 +112,7 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer,Play
 	public List<Quiz> getListOfQuiz(User player) throws RemoteException {
 		List<Quiz> quizList = new ArrayList<Quiz>();
 		for(Quiz current : this.quizList) {
-			if(current.getQuizStatus().equals(Status.Opened)) {
+			if(current.getQuizStatus().equals(Status.Opened) && current.getCreatorID() != player.getId() && !this.hasScore(current, player)) {
 				quizList.add(current);
 			}
 		}
@@ -149,5 +149,13 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer,Play
 		partialScoreSheet.add(newResult);
 	}
 
-
+	@Override
+	public boolean hasScore(Quiz quiz,User user) throws RemoteException {
+		for(Results current : partialScoreSheet) {
+			if(current.getPlayerID() == user.getId() && current.getQuizID() == quiz.getQuizID()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

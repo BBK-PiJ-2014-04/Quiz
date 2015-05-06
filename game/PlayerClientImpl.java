@@ -130,7 +130,7 @@ public class PlayerClientImpl implements PlayerClient {
 						int value = Integer.parseInt(input) - 1; 
 						if(Integer.parseInt(input) <= answersGrid.length) {
 							myQuizServer.updateScore(quiz, player, ((answersGrid[value]) ? 1 : 0));
-							finalscore+=((answersGrid[value]) ? 1 : 0);
+							finalscore = myQuizServer.getScore(quiz, player);
 							if(answersGrid[value]) {
 								System.out.println("Nice job! Your answer is correct! Let's keep on rolling with the next question");
 							}

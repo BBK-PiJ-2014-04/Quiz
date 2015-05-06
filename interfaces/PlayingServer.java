@@ -68,5 +68,14 @@ public interface PlayingServer extends Remote {
 	 * @throws RemoteException 
 	 */
 	public User createUser(String name) throws RemoteException;
+	/**
+	 * Checks if a user already attempted a Quiz
+	 * 
+	 * @param quiz
+	 * @param user
+	 * @return
+	 * @throws RemoteException
+	 */
+	boolean hasScore(Quiz quiz, User user) throws RemoteException;
 	
 }
