@@ -1,7 +1,9 @@
 package game;
 
+import interfaces.Answer;
 import interfaces.Player;
 import interfaces.PlayingServer;
+import interfaces.Question;
 import interfaces.Quiz;
 import interfaces.User;
 
@@ -9,12 +11,16 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Scanner;
 
-import server.CustomTypes.Status;
+import server.CustomTypes;
 
 public class PlayerClientImpl implements PlayerClient {
 	
 	private PlayingServer myQuizServer;
 	public Scanner scanner = new Scanner( System.in );
+	
+	public PlayerClientImpl() {
+		
+	}
 	
 	@Override
 	public User getPlayer() throws RemoteException {
@@ -85,9 +91,49 @@ public class PlayerClientImpl implements PlayerClient {
 	}
 
 	@Override
-	public int answeringQuestion(Quiz quiz) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int answeringQuestion(Quiz quiz, Player player) throws RemoteException {
+		String input;
+		int finalscore = 0;
+		for(Question current : quiz.getQuestionList()) {
+			System.out.println(current.getQuestionText());
+			int index = 0;
+			boolean[] answersGrid = new boolean[current.getAnswers().size()];
+			for(Answer answer : current.getAnswers()) {
+				answersGrid[index++] = answer.isRight();
+				System.out.printf("%d) %s",index,answer.getText());
+			}
+			System.out.print("Please select your answer: ");
+			while(true) {
+				input = scanner.nextLine();
+				if(input.equals("exit")) {
+					exitSystem();
+					return 0;
+				}
+				else {
+					if(CustomTypes.isInteger(input,10)) {
+						if(Integer.parseInt(input) <= answersGrid.length) {
+							myQuizServer.updateScore(quiz, player, ((answersGrid[Integer.parseInt(input)]) ? 1 : 0));
+							finalscore+=((answersGrid[Integer.parseInt(input)]) ? 1 : 0);
+							if(answersGrid[Integer.parseInt(input)]) {
+								System.out.println("Nice job! Your answer is correct! Let's keep on rolling with the next question");
+							}
+							else {
+								System.out.println("Bugger! Your answer is not correct! Let's try to improve with the following question");
+							}
+							break;
+						}
+						else {
+							System.out.println("Invalid output, please try again. Select your answer: ");
+						}
+					}
+					else {
+						System.out.println("Invalid output, please try again. Select your answer: ");
+					}
+				}
+			}
+			System.out.println("");
+		}
+		return finalscore;
 	}
 	
 	/**

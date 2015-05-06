@@ -13,6 +13,7 @@ import java.rmi.registry.Registry;
 import java.util.List;
 import java.util.Scanner;
 
+import server.CustomTypes;
 import server.CustomTypes.Status;
 import server.QuestionImpl;
 
@@ -318,10 +319,10 @@ public class CreatorClientImpl implements CreatorClient {
 		else if(input.equals("main menu")) {
 			return;
 		}
-		else if(input.startsWith("mod ") && isInteger(input.split(" ")[1],10)) {		
+		else if(input.startsWith("mod ") && CustomTypes.isInteger(input.split(" ")[1],10)) {		
 			modifyAnswer(question.getAnswerFromList(Integer.parseInt(input.split(" ")[1])), question);
 		}
-		else if(input.startsWith("del ") && isInteger(input.split(" ")[1],10)) {	
+		else if(input.startsWith("del ") && CustomTypes.isInteger(input.split(" ")[1],10)) {	
 			question.delAnswer(Integer.parseInt(input.split(" ")[1]));
 			System.out.println("Answer succesfully Deleted");
 		}
@@ -359,23 +360,4 @@ public class CreatorClientImpl implements CreatorClient {
 		System.out.println("");
 	}
 	
-	/**
-	 * Tells if a string is an Integer
-	 * 
-	 * @param s
-	 * @param radix
-	 * @return
-	 */
-	//Thanks StackOverflow
-	public static boolean isInteger(String s, int radix) {
-	    if(s.isEmpty()) return false;
-	    for(int i = 0; i < s.length(); i++) {
-	        if(i == 0 && s.charAt(i) == '-') {
-	            if(s.length() == 1) return false;
-	            else continue;
-	        }
-	        if(Character.digit(s.charAt(i),radix) < 0) return false;
-	    }
-	    return true;
-	}
 }

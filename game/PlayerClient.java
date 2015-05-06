@@ -1,6 +1,8 @@
 package game;
 
 import java.rmi.RemoteException;
+
+import interfaces.Player;
 import interfaces.Quiz;
 import interfaces.User;
 
@@ -30,8 +32,10 @@ public interface PlayerClient {
 	 * Process to show and answer the question, storing the score
 	 * 
 	 * @param quiz
-	 * @return
+	 * @param player
+	 * @return the final Score
+	 * @throws RemoteException
 	 */
-	public int answeringQuestion(Quiz quiz) throws RemoteException;
+	public int answeringQuestion(Quiz quiz, Player player) throws RemoteException;
 
 }
