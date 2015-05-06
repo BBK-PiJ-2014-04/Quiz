@@ -1,8 +1,6 @@
 package game;
 
 import java.rmi.RemoteException;
-import java.util.List;
-
 import interfaces.Quiz;
 import interfaces.User;
 
@@ -27,13 +25,13 @@ public interface PlayerClient {
 	 * @param player
 	 * @return Quiz
 	 */
-	public Quiz getNotPlayedQuiz(User player);
+	public Quiz getNotPlayedQuiz(User player) throws RemoteException;
 	/**
 	 * Process to show and answer the question, storing the score
 	 * 
 	 * @param quiz
 	 * @return
 	 */
-	public int answeringQuestion(Quiz quiz);
-	
+	public int answeringQuestion(Quiz quiz) throws RemoteException;
+
 }

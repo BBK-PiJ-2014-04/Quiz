@@ -45,4 +45,28 @@ public interface PlayingServer extends Remote {
 	 * @throws RemoteException
 	 */
 	public void updateScore(Quiz quiz,User user, int scoreUpdate) throws RemoteException;
+	/**
+	 * Get the list of users (simulation of a login system, without the password..trustful login :))
+	 * 
+	 * @return a List of all the registered user
+	 * @throws RemoteException 
+	 */
+	public List<User> getListOfUsers() throws RemoteException;
+	/**
+	 * Retrieves the user with the given ID
+	 * 
+	 * @param userID
+	 * @return the selected user
+	 * @throws RemoteException
+	 */
+	public User getUser(int userID) throws RemoteException;
+	/**
+	 * Create a new user
+	 * 
+	 * @param name
+	 * @return the id of the User created
+	 * @throws RemoteException 
+	 */
+	public User createUser(String name) throws RemoteException;
+	
 }
