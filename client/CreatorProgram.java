@@ -25,8 +25,8 @@ public class CreatorProgram {
 				Quiz myQuiz = clientUser.getQuiz();
 				clientUser.modifyQuiz(myQuiz);
 				System.out.println("Do you want to exit the program? (Any answer other than 'Y' or 'Yes', will be assumed as no):");
-				String toScanExit = clientUser.scanner.nextLine();
-				if(toScanExit.equals("Y") || toScanExit.equals("Yes")) {
+				String toScanExit = clientUser.scanner.nextLine().toUpperCase();
+				if(toScanExit.equals("Y") || toScanExit.equals("YES")) {
 					clientUser.exitSystem();
 				}
 			}

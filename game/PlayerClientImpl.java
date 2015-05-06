@@ -1,7 +1,6 @@
 package game;
 
 import interfaces.Answer;
-import interfaces.CreateServer;
 import interfaces.Player;
 import interfaces.PlayingServer;
 import interfaces.Question;
@@ -53,7 +52,7 @@ public class PlayerClientImpl implements PlayerClient {
 				System.out.println("");
 			}
 			System.out.print("Please select your user (Write 'new' to create a new one): ");
-			input = scanner.nextLine();
+			input = scanner.nextLine().toLowerCase();
 			if(input.equals("new")) {
 				return createNewUser();
 			}
@@ -89,7 +88,7 @@ public class PlayerClientImpl implements PlayerClient {
 					System.out.println("");
 			}
 			System.out.print("Please select one: ");
-			input = scanner.nextLine();
+			input = scanner.nextLine().toLowerCase();
 			if(input.equals("exit")) {
 				exitSystem();
 				return null;
@@ -120,7 +119,7 @@ public class PlayerClientImpl implements PlayerClient {
 			}
 			System.out.print("Please select your answer: ");
 			while(true) {
-				input = scanner.nextLine();
+				input = scanner.nextLine().toLowerCase();
 				if(input.equals("exit")) {
 					exitSystem();
 					return 0;

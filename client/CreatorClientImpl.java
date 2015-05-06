@@ -52,7 +52,7 @@ public class CreatorClientImpl implements CreatorClient {
 				System.out.println("");
 			}
 			System.out.print("Please select your user (Write 'new' to create a new one): ");
-			input = scanner.nextLine();
+			input = scanner.nextLine().toLowerCase();
 			if(input.equals("new")) {
 				return createNewUser();
 			}
@@ -89,7 +89,7 @@ public class CreatorClientImpl implements CreatorClient {
 				}
 			}
 			System.out.print("Please select one of your Quiz (Write 'new' to create a new one): ");
-			input = scanner.nextLine();
+			input = scanner.nextLine().toLowerCase();
 			if(input.equals("new")) {
 				return createNewQuiz();
 			}
@@ -115,7 +115,7 @@ public class CreatorClientImpl implements CreatorClient {
 		String answerText = scanner.nextLine();
 		System.out.printf("Is it the correct answer for the Question '%s' (Y/N):", question.getQuestionText());
 		while(true) {
-			String corrAnswer = scanner.nextLine();
+			String corrAnswer = scanner.nextLine().toUpperCase();
 			if(corrAnswer.equals("Y")) {
 				question.addAnswer(answerText, true);
 				break;
@@ -138,7 +138,7 @@ public class CreatorClientImpl implements CreatorClient {
 		boolean isCorrect = false;
 		System.out.printf("After the change, is it the correct answer for the Question '%s' (Y/N):", question.getQuestionText());
 		while(true) {
-			String corrAnswer = scanner.nextLine();
+			String corrAnswer = scanner.nextLine().toUpperCase();
 			if(corrAnswer.equals("Y")) {
 				isCorrect = true;
 				break;
@@ -167,7 +167,7 @@ public class CreatorClientImpl implements CreatorClient {
 			System.out.print("Is the Answer inserting done? (Y/N):");
 			String answerDone;
 			do {
-				answerDone = scanner.nextLine();
+				answerDone = scanner.nextLine().toUpperCase();
 				if(!(answerDone.equals("Y") || answerDone.equals("N"))) {
 					System.out.print("Please insert either 'Y' or 'N':");
 				}
@@ -223,7 +223,7 @@ public class CreatorClientImpl implements CreatorClient {
 			System.out.print("Is the Question inserting done? (Y/N):");
 			String questionDone;
 			do {
-				questionDone = scanner.nextLine();
+				questionDone = scanner.nextLine().toUpperCase();
 				if(!(questionDone.equals("Y") || questionDone.equals("N"))) {
 					System.out.println("Please insert either 'Y' or 'N':");
 				}
@@ -261,7 +261,7 @@ public class CreatorClientImpl implements CreatorClient {
 	@Override
 	public void modifyQuiz(Quiz quiz) throws RemoteException {
 		modifyQuizGuideLines();
-		String input = scanner.nextLine();
+		String input = scanner.nextLine().toLowerCase();
 		if(input.equals("mod quiz")) {
 			quizInitialSettings(quiz);
 		}
@@ -277,8 +277,8 @@ public class CreatorClientImpl implements CreatorClient {
 		else if(input.equals("mod questions")) {
 			for(Question current: quiz.getQuestionList()) {
 				System.out.printf("Do you want to modify the question: %s? (Any answer other than 'Y' or 'Yes', will be assumed as no):", current.getQuestionText());
-				String questionModify = scanner.nextLine();
-				if(questionModify.equals("Yes") || questionModify.equals("Y")) {
+				String questionModify = scanner.nextLine().toUpperCase();
+				if(questionModify.equals("YES") || questionModify.equals("Y")) {
 					modifyQuestion(current, false);
 				}
 			}
@@ -309,7 +309,7 @@ public class CreatorClientImpl implements CreatorClient {
 		System.out.println("Use the id as your parameter n to perform the operation (f.i. del 0 will delete the answer with id 0)");
 		System.out.println("");
 		System.out.println("Please insert your operation:");
-		input = scanner.nextLine();
+		input = scanner.nextLine().toLowerCase();
 		if(input.equals("new")) {
 			insertNewAnswer(question);
 		}
