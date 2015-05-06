@@ -12,7 +12,7 @@ public class CreatorProgram {
 			System.out.println("");
 			System.out.println("Hello! Welcome to the Quiz Creator System");
 			System.out.println("");
-			System.out.println("A list of Users/Quiz will be printed, with their ID specified on the left. To select them, simply type the number.");
+			System.out.println("A list of Quiz will be printed, with their ID specified on the left. To select them, simply type the number.");
 			System.out.println("You can also use the keyword 'new' to create a new User/Quiz or the keyword 'exit' to quit the program");
 			System.out.println("Please note that the keyword 'exit' can be used almost in any part of the program, even if not specified");
 			System.out.println("");

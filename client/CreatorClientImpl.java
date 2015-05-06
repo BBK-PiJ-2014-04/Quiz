@@ -101,7 +101,7 @@ public class CreatorClientImpl implements CreatorClient {
 					return myQuizServer.getQuiz(Integer.parseInt(input));
 				}
 				catch(IllegalArgumentException e) {
-					System.out.println("Please insert either a number to select a user, the word 'new' to create a new user, the word 'exit' to Quit");
+					System.out.println("Please insert either a number to select a Quiz, the word 'new' to create a new user, the word 'exit' to Quit");
 					return getQuiz();
 				}
 			}
