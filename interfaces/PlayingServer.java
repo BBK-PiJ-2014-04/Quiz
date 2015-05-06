@@ -14,12 +14,12 @@ public interface PlayingServer extends Remote {
 	 */
 	public Quiz getQuiz(int id) throws RemoteException;
 	/**
-	 * Gets the list of all the Quiz created
+	 * Gets the list of all the Quiz created that the player hasn't played
 	 * 
 	 * @return List Of Quiz
 	 * @throws RemoteException 
 	 */
-	public List<Quiz> getListOfQuiz() throws RemoteException;
+	public List<Quiz> getListOfQuiz(Player player) throws RemoteException;
 	/**
 	 * Evaluates the answer and checks whether is correct or not and changes the score accordingly
 	 * 

@@ -2,6 +2,7 @@ package server;
 
 import interfaces.Answer;
 import interfaces.CreateServer;
+import interfaces.Player;
 import interfaces.PlayingServer;
 import interfaces.Quiz;
 import interfaces.User;
@@ -112,7 +113,7 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer,Play
 	}
 
 	@Override
-	public List<Quiz> getListOfQuiz() throws RemoteException {
+	public List<Quiz> getListOfQuiz(Player player) throws RemoteException {
 		List<Quiz> quizList = new ArrayList<Quiz>();
 		for(Quiz current : this.quizList) {
 			if(current.getQuizStatus().equals(Status.Opened)) {
