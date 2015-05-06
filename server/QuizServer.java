@@ -2,7 +2,6 @@ package server;
 
 import interfaces.Answer;
 import interfaces.CreateServer;
-import interfaces.Player;
 import interfaces.PlayingServer;
 import interfaces.Quiz;
 import interfaces.User;
@@ -10,10 +9,7 @@ import interfaces.User;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import server.CustomTypes.Status;
 
 public class QuizServer extends UnicastRemoteObject implements CreateServer,PlayingServer {
@@ -113,7 +109,7 @@ public class QuizServer extends UnicastRemoteObject implements CreateServer,Play
 	}
 
 	@Override
-	public List<Quiz> getListOfQuiz(Player player) throws RemoteException {
+	public List<Quiz> getListOfQuiz(User player) throws RemoteException {
 		List<Quiz> quizList = new ArrayList<Quiz>();
 		for(Quiz current : this.quizList) {
 			if(current.getQuizStatus().equals(Status.Opened)) {

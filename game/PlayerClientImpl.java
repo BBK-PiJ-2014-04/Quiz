@@ -1,7 +1,6 @@
 package game;
 
 import interfaces.Answer;
-import interfaces.Player;
 import interfaces.PlayingServer;
 import interfaces.Question;
 import interfaces.Quiz;
@@ -75,7 +74,7 @@ public class PlayerClientImpl implements PlayerClient {
 	@Override
 	public Quiz getNotPlayedQuiz(User player) throws RemoteException {
 		String input;
-		List<Quiz> quizList = myQuizServer.getListOfQuiz((Player)player);
+		List<Quiz> quizList = myQuizServer.getListOfQuiz(player);
 		if(quizList.size() == 0) {
 			System.out.println("There are no quiz for you! Email the Quiz creator for him to create new amazing Quiz!");
 			exitSystem();
@@ -106,9 +105,10 @@ public class PlayerClientImpl implements PlayerClient {
 	}
 
 	@Override
-	public int answeringQuestion(Quiz quiz, Player player) throws RemoteException {
+	public int answeringQuestion(Quiz quiz, User player) throws RemoteException {
 		String input;
 		int finalscore = 0;
+		System.out.println("Let's start with the first question");
 		for(Question current : quiz.getQuestionList()) {
 			System.out.println(current.getQuestionText());
 			int index = 0;
@@ -116,6 +116,7 @@ public class PlayerClientImpl implements PlayerClient {
 			for(Answer answer : current.getAnswers()) {
 				answersGrid[index++] = answer.isRight();
 				System.out.printf("%d) %s",index,answer.getText());
+				System.out.println("");
 			}
 			System.out.print("Please select your answer: ");
 			while(true) {
@@ -126,10 +127,11 @@ public class PlayerClientImpl implements PlayerClient {
 				}
 				else {
 					if(CustomTypes.isInteger(input,10)) {
+						int value = Integer.parseInt(input) - 1; 
 						if(Integer.parseInt(input) <= answersGrid.length) {
-							myQuizServer.updateScore(quiz, player, ((answersGrid[Integer.parseInt(input)]) ? 1 : 0));
-							finalscore+=((answersGrid[Integer.parseInt(input)]) ? 1 : 0);
-							if(answersGrid[Integer.parseInt(input)]) {
+							myQuizServer.updateScore(quiz, player, ((answersGrid[value]) ? 1 : 0));
+							finalscore+=((answersGrid[value]) ? 1 : 0);
+							if(answersGrid[value]) {
 								System.out.println("Nice job! Your answer is correct! Let's keep on rolling with the next question");
 							}
 							else {

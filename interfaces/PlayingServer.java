@@ -19,7 +19,7 @@ public interface PlayingServer extends Remote {
 	 * @return List Of Quiz
 	 * @throws RemoteException 
 	 */
-	public List<Quiz> getListOfQuiz(Player player) throws RemoteException;
+	public List<Quiz> getListOfQuiz(User player) throws RemoteException;
 	/**
 	 * Evaluates the answer and checks whether is correct or not and changes the score accordingly
 	 * 
