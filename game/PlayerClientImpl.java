@@ -109,6 +109,7 @@ public class PlayerClientImpl implements PlayerClient {
 		String input;
 		int finalscore = 0;
 		System.out.println("Let's start with the first question");
+		System.out.println("");
 		for(Question current : quiz.getQuestionList()) {
 			System.out.println(current.getQuestionText());
 			int index = 0;
