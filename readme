@@ -1,11 +1,13 @@
 The serverLauncher class starts the Server program.
 When that one is up and running, run the CreatorProgram class to start the Quiz Creator.
-When the interface is running, it is quite self-explicative, I tried to add as many guidelines as possible (also set validation),
+When the interface is running, it is quite intuitive, I tried to add as many guidelines as possible (also set validation),
+Now the PlayerProgram class can be started to start the Quiz Player client.
 
+If the PlayerProgram is started before the Creator one or no Quiz have been created, the only thing it will allow the user to do is to create a login.
+After you create a user in either clients, it is going to be available for both playing and creating. 
+A user won't be able to play its own quiz. Also, he will be able to attempt a quiz just one time.
 
-The creator part has been tested and works now fine.
-The playing part has been started and the Server part is completed. The interface isn't present yet.
-
+The PlayerProgram interface is very simple and intuitive too, it shouldn't be too complicated to use it.
 
 Possible Exceptions
-Sometimes a denial of connect is thrown, but that's really random.
+Sometimes a denial of connect is thrown, but that's really random and hasn't happened for a while now.
